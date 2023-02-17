@@ -1,13 +1,13 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, SelectMenuComponentOptionData, APIActionRowComponent, APIMessageActionRowComponent } from 'discord.js';
-import { OptionalRole } from '../helpers/role';
+import { OptionalRole } from 'helpers/role';
+import { getListFromFile } from 'helpers/functions';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('optrolesbuilder')
     .setDescription('Creates a dropdown menu in this channel for students to select optional roles')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const funcs = require('../helpers/functions');
-    const rolesList = funcs.getListFromFile('data/optroles.json');
+    const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
     if (rolesList.length === 0) {
       await interaction.reply({ content: 'There are no roles currently in the list.', ephemeral: true });
       return;

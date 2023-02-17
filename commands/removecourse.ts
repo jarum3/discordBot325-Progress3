@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, SelectMenuComponentOptionData } from 'discord.js';
-import { CourseRole } from '../helpers/role';
+import { CourseRole } from 'helpers/role';
+import { getListFromFile } from 'helpers/functions';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
@@ -7,8 +8,7 @@ module.exports = {
     .setDescription('Provides a dropdown to remove courses')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const funcs = require('../helpers/functions');
-    const rolesList = funcs.getListFromFile('data/courses.json');
+    const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     if (rolesList.length === 0) {
       await interaction.reply({ content: 'There are no courses currently in the list.', ephemeral: true });
       return;

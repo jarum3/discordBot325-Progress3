@@ -1,9 +1,21 @@
-import { ColorResolvable, Colors } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel, GuildTextBasedChannel } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
+import * as fs from 'node:fs';
 /* eslint-disable no-unused-vars */
 export async function getSemester() {
   // TODO Get current semester
   return 0;
+}
+
+export async function createChannel(name: string, categpry: CategoryChannel)/*: Promise<GuildTextBasedChannel>*/ {
+}
+
+export async function createCategory(name: string, role: Role)/*: Promise<CategoryChannel>*/ {
+
+}
+
+export async function archiveCategory(category: CategoryChannel, originalRole: Role, newRole: Role): Promise<void> {
+
 }
 /**
  * Writes a list to given file as JSON
@@ -12,7 +24,6 @@ export async function getSemester() {
  */
 export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string): void {
   // TODO Verify that this works
-  const fs = require('fs');
   const listJson = JSON.stringify(list);
   fs.writeFileSync(file, listJson, 'utf-8');
 }
@@ -23,7 +34,6 @@ export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string
  */
 export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
   // TODO verify that this works
-  const fs = require('fs');
   if (!fs.existsSync(file)) fs.writeFileSync(file, '[]');
   const text = fs.readFileSync(file).toString('utf-8');
   return JSON.parse(text);
