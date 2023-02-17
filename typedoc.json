@@ -1,0 +1,14 @@
+{
+  "entryPoints": [
+    "./app.ts",
+    "./commands",
+    "./events",
+    "./helpers",
+    "./deploy-commands.ts"
+  ],
+  "entryPointStrategy": "expand",
+  "excludeExternals": true,
+  "excludeNotDocumented": true,
+  "out": "doc/",
+  "pretty": true,
+}
