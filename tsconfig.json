@@ -13,4 +13,10 @@
   "exclude": [
     "node_modules"
   ],
+  "typedocOptions": {
+    "entryPoints": [
+      "helpers/functions.ts",
+      "helpers/role.ts",
+    ],
+  },
 }

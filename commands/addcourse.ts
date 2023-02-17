@@ -24,12 +24,11 @@ module.exports = {
         .setRequired(false))
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-
-    const roleData = require('../helpers/role');
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
     const video = interaction.options.getBoolean('video');
-    const jointClass = interaction.options.getBoolean('jointclass');
+    const jointClassTrue = interaction.options.getBoolean('jointclass');
+    let jointClass;
     const rolesList: CourseRole[] = getListFromFile('data/courses.json') as CourseRole[];
     const serverRoles = [];
     // TODO add handling for joint courses, generate a dropdown, get an interaction, then edit the message with the dropdown with the interaction reply
@@ -82,14 +81,14 @@ module.exports = {
           return undefined;
         });
     }
-    const newCourse = new roleData.CourseRole(
-      prefix,
-      number,
-      role,
-      veteranRole,
-      video,
-      jointClass
-    );
+    const newCourse: CourseRole = new CourseRole({
+      prefix: prefix,
+      number: number,
+      role: role,
+      veteranRole: veteranRole,
+      video: video,
+      jointClass: jointClass,
+    });
     rolesList.push(newCourse);
     saveListToFile(rolesList, 'data/courses.json');
     interaction.reply({ content: 'Course added!', ephemeral: true });

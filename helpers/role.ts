@@ -10,7 +10,11 @@ export class CourseRole {
   video: Boolean;
   jointClass: string | undefined;
   category: CategoryChannel;
-  constructor(prefix: string, number: string, name: string | undefined, role: Role, veteranRole: Role, video: Boolean | undefined, jointClass: string | undefined) {
+  /**
+   * @constructor
+   * @param {{ prefix: string, number: string, role: Role, veteranRole: Role, video: boolean, jointClass: string}} options Set of options for course data
+   */
+  constructor({ prefix, number, role, veteranRole, video = false, jointClass = undefined, name = undefined }: { prefix: string; number: string; role: Role; veteranRole: Role; video?: Boolean; jointClass?: string; name?: string; }) {
     this.prefix = prefix;
     this.number = number;
     this.name = prefix + '-' + number;
@@ -21,7 +25,11 @@ export class CourseRole {
     else this.video = false;
     this.jointClass = jointClass;
   }
-  createAndPopulateCategory() {
+
+  /**
+   * Creates a category, then populates it with channels
+   */
+  createAndPopulateCategory(): void {
     const funcs = require('./functions');
     const courseName = this.jointClass ? this.prefix + ' ' + this.number + ' / ' + this.jointClass : this.prefix + ' ' + this.number;
     // TODO move category code in here so that it can return its promise
@@ -35,6 +43,9 @@ export class CourseRole {
     funcs.createChannel('introduce-yourself', this.category);
     funcs.createChannel('chat', this.category);
   }
+  /**
+   * Archives the category, including role permission changeoff
+   */
   archiveCategory() {
     const funcs = require('./functions');
     // TODO #6 edit this so that it can pass in its own category as a category object
@@ -46,6 +57,12 @@ export class OptionalRole {
   name: string;
   description: string;
   role: Role;
+  /**
+   * @constructor
+   * @param {string} name Name for optional role
+   * @param {string} description Description to be displayed to students
+   * @param {import('discord.js').Role} role object associated with course
+   */
   constructor(name: string, description: string | undefined, role: Role) {
     this.name = name;
     this.description = description;
