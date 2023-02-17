@@ -2,16 +2,30 @@ import { ColorResolvable, Colors } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 /* eslint-disable no-unused-vars */
 export async function getSemester() {
-  // TODO #3 Get current semester
+  // TODO Get current semester
   return 0;
 }
-export function saveListToFile(list: CourseRole[] | OptionalRole[], file: File): void {
+export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string): void {
+  /**
+   * Writes a list to given file as JSON
+   * @typedef {import('../helpers/role') CourseRole}
+   * @typedef {import('../helpers/role') OptionalRole}
+   * @param {CourseRole[] | OptionalRole[]} list - List to write in as json
+   * @param {string} file - Valid file path to read from
+   */
   // TODO Verify that this works
   const fs = require('fs');
   const listJson = JSON.stringify(list);
   fs.writeFileSync(file, listJson, 'utf-8');
 }
-export function getListFromFile(file: File): CourseRole[] | OptionalRole[] {
+export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
+  /**
+   * Reads in a list of roles from a file as JSON
+   * @typedef {import('../helpers/role') CourseRole}
+   * @typedef {import('../helpers/role') OptionalRole}
+   * @param {string} file - valid file path to read from
+   * @returns {CourseRole | OptionalRole}
+   */
   // TODO verify that this works
   const fs = require('fs');
   if (!fs.existsSync(file)) fs.writeFileSync(file, '[]');
@@ -19,21 +33,28 @@ export function getListFromFile(file: File): CourseRole[] | OptionalRole[] {
   return JSON.parse(text);
 }
 export function isColor(strColor: any): boolean {
+  /**
+   * Determines if given color is valid hex or color descriptor
+   * @param {any} strColor - Possible color string
+   * @returns {boolean} - True if color is valid hex or color descriptor
+   */
   const RegExp = /(^#?[0-9A-F]{6}$)|(^#?[0-9A-F]{3}$)/i; // Regex to check if the input is a valid hex code.
   return Object.keys(Colors).includes(capitalizeString(strColor)) || RegExp.test(strColor);
 }
 
 export function capitalizeString(string: string): string {
   /**
-   * @param string - String to be capitalized
-   * @returns string with first character capitalized
+   * Capitalizes first letter of a string
+   * @param {string} string - String to be capitalized
+   * @returns {string} string with first character capitalized
    */
   return string.charAt(0).toUpperCase + string.slice(1);
 }
 
 export function generateColor(): ColorResolvable {
   /**
-   * @returns random hex code as 6-character ColorResolvable
+   * @typedef {import('discord.js.ColorResolvable') ColorResolvable}
+   * @returns {ColorResolvable} random hex code as 6-character ColorResolvable
    */
   return Math.floor(Math.random() * 16777215).toString(16) as ColorResolvable;
 }
@@ -41,9 +62,9 @@ export function generateColor(): ColorResolvable {
 export function adjustColor(col: string, amt: number): string | undefined {
   /**
    * Adjusts a color's brightness by a number value
-   * @param col - Color to be adjusted, as a 6-character hexadecimal string
-   * @param amt - Amount to adjust by, positive values create a brighter color and negative values create a dimmer color
-   * @returns The color input adjusted by amt value, or undefined if string is invalid
+   * @param {string} col - Color to be adjusted, as a 6-character hexadecimal string
+   * @param {number} amt - Amount to adjust by, positive values create a brighter color and negative values create a dimmer color
+   * @returns {string | undefined} The color input adjusted by amt value, or undefined if string is invalid
    */
   if (!isColor(col)) return undefined;
   let usePound = false;
