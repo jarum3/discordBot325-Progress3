@@ -1,13 +1,33 @@
 import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, GuildTextBasedChannel, TextChannel, PermissionsBitField, OverwriteType } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
-/* eslint-disable no-unused-vars */
-export async function getSemester() {
-  // TODO Get current semester
-  return 0;
+
+/**
+ * Reads in semester data from text file, written by admin command
+ * @returns {string} string of first line of semester file, which should contain current semester
+ */
+export function getSemester(): string {
+  return fs.readFileSync('../data/currentsemester.txt').toString().split('\n')[0];
 }
 
-export async function createChannel(guild: Guild, name: string) {
+/**
+ * Writes a string to a file to be read later as semester data
+ * @param string The value of the current semester
+ */
+export function writeSemester(string: string): void {
+  fs.writeFileSync('../data/currentsemester.txt', string);
+}
+
+/**
+ * Simply parses a file into lines as strings
+ * @param file path to file to read lines from
+ * @returns {string[]} array of strings, one for each line in the file
+ */
+export function parseLines(file: string): string[] {
+  return fs.readFileSync(file).toString().split('\n');
+}
+
+export async function createChannel(guild: Guild, name: string): Promise<TextChannel> {
   return guild.channels.create({
     name: name,
     type: ChannelType.GuildText,

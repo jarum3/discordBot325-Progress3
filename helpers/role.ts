@@ -1,5 +1,5 @@
-import { CategoryChannel, Role } from "discord.js";
-import { createChannel, archiveCategory } from './functions';
+import { CategoryChannel, Role, TextChannel } from "discord.js";
+import { createChannel, archiveCategory, createCategory, getSemester, parseLines } from './functions';
 /**
  * A class to store course role data, including a veteran role and data on course attributes
  */
@@ -40,30 +40,32 @@ export class CourseRole {
    * Creates a category, then populates it with channels
    */
   async createAndPopulateCategory(): Promise<void> {
-    const courseName = this.jointClass ? this.prefix + ' ' + this.number + ' / ' + this.jointClass : this.prefix + ' ' + this.number;
-    // TODO move category code in here so that it can return its promise
-    // this.category = await createCategory(courseName + ' - ' + getSemester(), this.role);
-    this.createChannelInCat('announcements-' + this.number, this.category);
-    this.createChannelInCat('zoom-meeting-info-' + this.number, this.category);
+    const categoryName = this.jointClass
+      ? this.prefix + ' ' + this.number + ' / ' + this.jointClass + ' - ' + getSemester()
+      : this.prefix + ' ' + this.number + ' - ' + getSemester();
+    this.category = await createCategory(categoryName, this.role);
+    this.createChannelInCat('announcements-' + this.number);
+    this.createChannelInCat('zoom-meeting-info-' + this.number);
     if (this.video) {
-      this.createChannelInCat('how-to-make-a-video', this.category);
-      // TODO: #5 Fill with messages
+      const videoChannel = await this.createChannelInCat('how-to-make-a-video');
+      const messages = parseLines('../data/videoMessages.txt');
+      messages.forEach(message => videoChannel.send(message));
     }
-    this.createChannelInCat('introduce-yourself', this.category);
-    this.createChannelInCat('chat', this.category);
+    this.createChannelInCat('introduce-yourself');
+    this.createChannelInCat('chat');
   }
-  async createChannelInCat(name: string, category: CategoryChannel) {
-    const newChannel = await createChannel(category.guild, name);
+  async createChannelInCat(name: string): Promise<TextChannel> {
+    const newChannel = await createChannel(this.category.guild, name);
     if (newChannel) {
-      newChannel.setParent(category);
+      newChannel.setParent(this.category);
       newChannel.lockPermissions();
     }
+    return newChannel;
   }
   /**
    * Archives the category, including role permission changeoff
    */
   archiveCategory() {
-    // TODO #6 edit this so that it can pass in its own category as a category object
     archiveCategory(this.category, this.role, this.veteranRole);
   }
 }
