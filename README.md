@@ -10,7 +10,7 @@ Additionally, [This ESLint file](.eslintrc.json) lists out rules for formatting 
 # Getting started
 
 ## Typescript details
-To compile this bot, use [This guide](https://www.typescripttutorial.net/typescript-tutorial/setup-typescript/) to get started with a typescript compiler on your system, then run tsc in the root directory. After this, copy .env files (described below) into the build directory. Alternatively, you can use ts-node as described in the guide above.
+To compile this bot, use [This guide](https://www.typescripttutorial.net/typescript-tutorial/setup-typescript/) to get started with a typescript compiler on your system, then run tsc in the root directory. After this, copy .env files (described below) into the build directory. Alternatively, you can use ts-node as described in the guide above. These are also combined into scripts start (for ts-node) and start-prod (for a full compile and run.)
 
 ## .env
 This bot requires a .env file, titled `.env` as its full name, with no hidden file extensions, in the root directory of the application (Whether running through ts-node or in the build directory for compiled javascript), in the same location as package.json
