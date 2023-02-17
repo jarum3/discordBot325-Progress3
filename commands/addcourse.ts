@@ -1,6 +1,6 @@
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
-import { generateColor, getListFromFile, adjustColor, saveListToFile } from 'helpers/functions';
-import { CourseRole } from 'helpers/role';
+import { generateColor, getListFromFile, adjustColor, saveListToFile } from "../helpers/functions";
+import { CourseRole } from "../helpers/role";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import { ColorResolvable, Colors, Role, CategoryChannel, GuildTextBasedChannel } from 'discord.js';
-import { CourseRole, OptionalRole } from 'helpers/role';
+import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 /* eslint-disable no-unused-vars */
 export async function getSemester() {
@@ -19,7 +19,7 @@ export async function archiveCategory(category: CategoryChannel, originalRole: R
 }
 /**
  * Writes a list to given file as JSON
- * @param {import('../helpers/role').CourseRole[] | import('../helpers/role').OptionalRole[]} list - List to write in as json
+ * @param {import('./role').CourseRole[] | import('./role').OptionalRole[]} list - List to write in as json
  * @param {string} file - Valid file path to read from
  */
 export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string): void {
@@ -30,7 +30,7 @@ export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string
 /**
  * Reads in a list of roles from a file as JSON
  * @param {string} file - valid file path to read from
- * @returns {import('../helpers/role').CourseRole[] | import('../helpers/role').OptionalRole[]}
+ * @returns {import('./role').CourseRole[] | import('./role').OptionalRole[]}
  */
 export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
   // TODO verify that this works

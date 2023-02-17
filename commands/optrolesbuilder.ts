@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, SelectMenuComponentOptionData, APIActionRowComponent, APIMessageActionRowComponent } from 'discord.js';
-import { OptionalRole } from 'helpers/role';
-import { getListFromFile } from 'helpers/functions';
+import { OptionalRole } from '../helpers/role';
+import { getListFromFile } from '../helpers/functions';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('optrolesbuilder')

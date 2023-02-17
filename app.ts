@@ -7,6 +7,11 @@ import * as fs from 'node:fs';
 import { Client, Collection, IntentsBitField } from 'discord.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
+declare module 'discord.js' {
+  export interface Client {
+    commands: Collection<unknown, any>
+  }
+}
 const botIntents = new IntentsBitField();
 // Declaring intents
 botIntents.add(IntentsBitField.Flags.GuildMessages);
@@ -34,7 +39,9 @@ for (const file of commandFiles) {
 
 
 // Processing env string as boolean
-if (process.env.testing.toLowerCase() === 'true') {
+let testing: boolean = false;
+if (process.env.testing) testing = process.env.testing.toLowerCase() === 'true';
+if (testing) {
   const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing tests directory
   const testingFiles = fs.readdirSync(testingPath).filter((file: string) => file.endsWith(currentFileExtension));
 

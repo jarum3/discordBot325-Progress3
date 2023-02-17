@@ -6,18 +6,13 @@
     "rootDir": "./",
     "outDir": "./build",
     "target": "ESNext",
-    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
   },
   "include": [
     "./**/*"
   ],
   "exclude": [
-    "node_modules"
-  ],
-  "typedocOptions": {
-    "entryPoints": [
-      "helpers/functions.ts",
-      "helpers/role.ts",
-    ],
-  },
+    "./node_modules",
+    "./build"
+  ]
 }

@@ -27,7 +27,9 @@ function deployCommands(): void {
       console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
     }
   }
-  if (process.env.testing.toLowerCase() === 'true') {
+  let testing: boolean = false;
+  if (process.env.testing) testing = process.env.testing.toLowerCase() === 'true';
+  if (testing) {
     const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing testing directory
     // Grabbing all files ending in current file extension (.ts for typescript, .js for javascript)
     const testingFiles = fs.readdirSync(testingPath).filter((file: string) => file.endsWith(currentFileExtension));

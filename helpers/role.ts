@@ -1,5 +1,5 @@
 import { CategoryChannel, Role } from "discord.js";
-import { createChannel, createCategory, archiveCategory, getSemester } from 'helpers/functions';
+import { createChannel, archiveCategory } from './functions';
 export class CourseRole {
   prefix: string;
   number: string;
