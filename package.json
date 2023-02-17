@@ -1,7 +1,7 @@
 {
   "name": "discordbot325",
   "version": "1.2.0",
-  "description": "",
+  "description": "A discord bot designed to assist in role management for a classroom setting.",
   "main": "build/app.js",
   "scripts": {
     "start": "ts-node deploy-commands.ts && ts-node app.ts",
