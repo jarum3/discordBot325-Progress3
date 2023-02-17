@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, Role } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, Role, ColorResolvable } from 'discord.js';
 import { isColor } from '../../helpers/functions';
 // Creates a new role with a given name and color
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     if (isColor(color)) {
       const role: Role = await interaction.guild.roles.create({
         name: name,
-        color: color,
+        color: color as ColorResolvable,
       })
         .then(x => {
           return x;

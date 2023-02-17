@@ -14,16 +14,19 @@ export function saveListToFile(list: CourseRole[] | OptionalRole[], file: File):
 export function getListFromFile(file: File): CourseRole[] | OptionalRole[] {
   // TODO verify that this works
   const fs = require('fs');
+  if (!fs.existsSync(file)) fs.writeFileSync(file, '[]');
   const text = fs.readFileSync(file).toString('utf-8');
   return JSON.parse(text);
 }
-export function isColor(strColor: any): strColor is ColorResolvable {
+export function isColor(strColor: any): boolean {
   const RegExp = /(^#?[0-9A-F]{6}$)|(^#?[0-9A-F]{3}$)/i; // Regex to check if the input is a valid hex code.
-  return Object.keys(Colors).includes(this.capitalizeString(strColor)) || RegExp.test(strColor);
+  return Object.keys(Colors).includes(capitalizeString(strColor)) || RegExp.test(strColor);
 }
+
 export function capitalizeString(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase + string.slice(1);
 }
+
 export function generateColor(): ColorResolvable {
   return Math.floor(Math.random() * 16777215).toString(16) as ColorResolvable;
 }

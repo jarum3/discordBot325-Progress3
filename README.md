@@ -7,6 +7,11 @@ This bot runs from [app.js](app.js), processes commands as exports with a data a
 
 Additionally, [This ESLint file](.eslintrc.json) lists out rules for formatting when pushing code, I'd recommend using some automatic linter to ensure those rules are followed. Since this is a work in progress, several files have unused variable checking turned off temporarily.
 
+# Getting started
+
+## Typescript details
+To compile this bot, use [This guide](https://www.typescripttutorial.net/typescript-tutorial/setup-typescript/) to get started with a typescript compiler on your system, then run tsc in the root directory. After this, copy [data](data/) and .env files (described below) into the build directory.
+
 ## .env
 This bot requires a .env file, titled `.env` as its full name, with no hidden file extensions, in the root directory of the application, in the same location as package.json
 
