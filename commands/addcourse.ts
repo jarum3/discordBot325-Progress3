@@ -1,4 +1,6 @@
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
+import { generateColor, getListFromFile, adjustColor, saveListToFile } from "../helpers/functions";
+import { CourseRole } from "../helpers/role";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,13 +25,12 @@ module.exports = {
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
 
-    const funcs = require('../helpers/functions');
     const roleData = require('../helpers/role');
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
     const video = interaction.options.getBoolean('video');
     const jointClass = interaction.options.getBoolean('jointclass');
-    const rolesList = funcs.getListFromFile('data/courses.json');
+    const rolesList: CourseRole[] = getListFromFile('data/courses.json') as CourseRole[];
     const serverRoles = [];
     // TODO add handling for joint courses, generate a dropdown, get an interaction, then edit the message with the dropdown with the interaction reply
     interaction.guild.roles.cache.forEach(r => {
@@ -47,10 +48,10 @@ module.exports = {
     let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
     let veteranRole = await interaction.guild.roles.cache.find(x => x.name === roleName + ' Veteran');
     if (!role) {
-      color = funcs.generateColor();
+      color = generateColor();
       while (await interaction.guild.roles.cache.find(x => x.hexColor === color)) {
         // Keep generating a new color until no role matches it
-        color = funcs.generateColor();
+        color = generateColor();
       }
       role = await interaction.guild.roles.create({
         name: roleName,
@@ -68,7 +69,7 @@ module.exports = {
       color = role.hexColor;
     }
     if (!veteranRole) {
-      const veteranColor = funcs.adjustColor(color, -35);
+      const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
       veteranRole = await interaction.guild.roles.create({
         name: roleName + ' Veteran',
         color: veteranColor,
@@ -90,7 +91,7 @@ module.exports = {
       jointClass
     );
     rolesList.push(newCourse);
-    funcs.saveListToFile(rolesList, 'data/courses.json');
+    saveListToFile(rolesList, 'data/courses.json');
     interaction.reply({ content: 'Course added!', ephemeral: true });
   },
 };
