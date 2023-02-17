@@ -1,8 +1,14 @@
-const { Events } = require('discord.js');
+import { ChatInputCommandInteraction, Events, Collection, BaseInteraction, RoleManager, GuildMemberRoleManager } from 'discord.js';
+
+declare module 'discord.js' {
+  export interface Client {
+    commands: Collection<unknown, any>
+  }
+}
 
 module.exports = {
   name: Events.InteractionCreate,
-  async execute(interaction) {
+  async execute(interaction: BaseInteraction) {
     if (interaction.isChatInputCommand()) {
       const command = interaction.client.commands.get(interaction.commandName); // Set command equal to the object in the command file.
       if (!command) {
@@ -27,11 +33,12 @@ module.exports = {
         for (const course of rolesList) {
           const courseRole = await interaction.guild.roles.fetch(course.role.id);
           if (courseRole) {
-            await interaction.member.roles.remove(courseRole);
+            const roles = interaction.member.roles as GuildMemberRoleManager;
+            await roles.remove(courseRole);
             for (const selection of rolesSelected) {
               if (selection === course.name) {
                 // Course = course to add, selection = selection matching that
-                await interaction.member.roles.add(courseRole);
+                await roles.add(courseRole);
                 addedCourses.push(courseRole.name);
               }
             }
@@ -49,11 +56,12 @@ module.exports = {
         for (const role of rolesList) {
           const optRole = role.role;
           if (optRole) {
-            await interaction.member.roles.remove(optRole);
+            const roles = interaction.member.roles as GuildMemberRoleManager;
+            await roles.remove(optRole);
             for (const selection of rolesSelected) {
               if (selection === role.name) {
                 // Course = course to add, selection = selection matching that
-                await interaction.member.roles.add(optRole.id);
+                await roles.add(optRole.id);
                 addedRoles.push(optRole.name);
               }
             }

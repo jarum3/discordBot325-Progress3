@@ -1,42 +1,37 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('addcourse')
     .setDescription('Adds a course to the list of courses')
-    .addStringOption(option =>
+    .addStringOption((option: SlashCommandStringOption) =>
       option.setName('prefix')
         .setDescription('Course prefix')
         .setRequired(true))
-    .addStringOption(option =>
+    .addStringOption((option: SlashCommandStringOption) =>
       option.setName('number')
         .setDescription('Course number')
         .setRequired(true))
-    .addBooleanOption(option =>
+    .addBooleanOption((option: SlashCommandBooleanOption) =>
       option.setName('video')
         .setDescription('Should the course require a videos channel')
         .setRequired(false))
-    .addStringOption(option =>
+    .addBooleanOption(option =>
       option.setName('jointclass')
-        .setDescription('Optionally, a course that this class should share a channel with')
-        .setRequired(false)
-        .addChoices(...(() => {
-          const funcs = require('../helpers/functions');
-          const rolesList = funcs.getListFromFile('data/courses.json');
-          const choices = [];
-          rolesList.forEach(element => choices.push({ name: element.name, value: element.name }));
-          return choices;
-        })()))
+        .setDescription('Whether to generate a dropdown to add a joint course, only one course needs to do this.')
+        .setRequired(false))
     .setDefaultMemberPermissions(0),
-  async execute(interaction) {
+  async execute(interaction: ChatInputCommandInteraction) {
+
     const funcs = require('../helpers/functions');
     const roleData = require('../helpers/role');
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
     const video = interaction.options.getBoolean('video');
-    const jointClass = interaction.options.getString('jointclass');
+    const jointClass = interaction.options.getBoolean('jointclass');
     const rolesList = funcs.getListFromFile('data/courses.json');
     const serverRoles = [];
+    // TODO add handling for joint courses, generate a dropdown, get an interaction, then edit the message with the dropdown with the interaction reply
     interaction.guild.roles.cache.forEach(r => {
       serverRoles.push(r.name);
     });
@@ -48,7 +43,7 @@ module.exports = {
       }
     }
     const roleName = prefix + '-' + number;
-    let color;
+    let color: ColorResolvable;
     let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
     let veteranRole = await interaction.guild.roles.cache.find(x => x.name === roleName + ' Veteran');
     if (!role) {
@@ -64,7 +59,10 @@ module.exports = {
         .then(x => {
           return x;
         })
-        .catch(console.error());
+        .catch(x => {
+          console.error('Something went wrong when creating role ' + x.name);
+          return undefined;
+        });
     }
     else {
       color = role.hexColor;
@@ -78,16 +76,19 @@ module.exports = {
         .then(x => {
           return x;
         })
-        .catch(console.error());
+        .catch(x => {
+          console.error('Something went wrong when creating role ' + x.name);
+          return undefined;
+        });
     }
-    const newCourse = new roleData.CourseRole({
-      prefix: prefix,
-      number: number,
-      role: role,
-      veteranRole: veteranRole,
-      video: video,
-      jointClass: jointClass,
-    });
+    const newCourse = new roleData.CourseRole(
+      prefix,
+      number,
+      role,
+      veteranRole,
+      video,
+      jointClass
+    );
     rolesList.push(newCourse);
     funcs.saveListToFile(rolesList, 'data/courses.json');
     interaction.reply({ content: 'Course added!', ephemeral: true });

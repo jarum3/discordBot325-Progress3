@@ -1,20 +1,21 @@
-const { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
+import { ChatInputCommandInteraction, SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, SelectMenuComponentOptionData } from 'discord.js';
+import { CourseRole } from '../helpers/role';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('removecourse')
     .setDescription('Provides a dropdown to remove courses')
     .setDefaultMemberPermissions(0),
-  async execute(interaction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const funcs = require('../helpers/functions');
     const rolesList = funcs.getListFromFile('data/courses.json');
     if (rolesList.length === 0) {
       await interaction.reply({ content: 'There are no courses currently in the list.', ephemeral: true });
       return;
     }
-    const options = [];
-    rolesList.forEach(element => options.push({ label: element.name, description: element.name, value: element.name }));
-    const row = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder()
+    const options: SelectMenuComponentOptionData[] = [];
+    rolesList.forEach((element: CourseRole) => options.push({ label: element.name, description: element.name, value: element.name }));
+    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
       .setCustomId('remove-courses')
       .setPlaceholder('Nothing selected')
       .setMinValues(1)

@@ -1,19 +1,20 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { ColorResolvable } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption } from 'discord.js';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('addoptrole')
     .setDescription('Adds a role to the list of roles')
-    .addStringOption(option =>
+    .addStringOption((option: SlashCommandStringOption) =>
       option.setName('name')
         .setDescription('Role name')
         .setRequired(true))
-    .addStringOption(option =>
+    .addStringOption((option: SlashCommandStringOption) =>
       option.setName('description')
         .setDescription('Role description')
         .setRequired(true))
     .setDefaultMemberPermissions(0),
-  async execute(interaction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const funcs = require('../helpers/functions');
     const roleData = require('../helpers/role');
     const roleName = interaction.options.getString('name');
@@ -30,7 +31,7 @@ module.exports = {
         return;
       }
     }
-    let color;
+    let color: ColorResolvable;
     let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
     if (!role) {
       color = funcs.generateColor();
@@ -45,16 +46,19 @@ module.exports = {
         .then(x => {
           return x;
         })
-        .catch(console.error());
+        .catch(x => {
+          console.error('Something went wrong when creating role ' + x.name);
+          return undefined;
+        });
     }
     else {
       color = role.hexColor;
     }
-    const newRole = new roleData.OptionalRole({
-      name: roleName,
-      role: role,
-      description: description,
-    });
+    const newRole = new roleData.OptionalRole(
+      roleName,
+      role,
+      description,
+    );
     rolesList.push(newRole);
     funcs.saveListToFile(rolesList, 'data/optroles.json');
     interaction.reply({ content: 'Role added!', ephemeral: true });
