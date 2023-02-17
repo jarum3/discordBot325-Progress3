@@ -6,6 +6,7 @@
     "rootDir": "./",
     "outDir": "./build",
     "target": "ESNext",
+    "baseUrl": "./",
   },
   "include": [
     "./**/*"

@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-
 import { CategoryChannel, Role } from "discord.js";
+import { createChannel, createCategory, archiveCategory, getSemester } from 'helpers/functions';
 export class CourseRole {
   prefix: string;
   number: string;
@@ -29,27 +28,25 @@ export class CourseRole {
   /**
    * Creates a category, then populates it with channels
    */
-  createAndPopulateCategory(): void {
-    const funcs = require('./functions');
+  async createAndPopulateCategory(): Promise<void> {
     const courseName = this.jointClass ? this.prefix + ' ' + this.number + ' / ' + this.jointClass : this.prefix + ' ' + this.number;
     // TODO move category code in here so that it can return its promise
-    this.category = funcs.createCategory(courseName + ' - ' + funcs.getSemester());
-    funcs.createChannel('announcements-' + this.number, this.category);
-    funcs.createChannel('zoom-meeting-info-' + this.number, this.category);
+    // this.category = await createCategory(courseName + ' - ' + getSemester(), this.role);
+    createChannel('announcements-' + this.number, this.category);
+    createChannel('zoom-meeting-info-' + this.number, this.category);
     if (this.video) {
-      funcs.createChannel('how-to-make-a-video', this.category);
+      createChannel('how-to-make-a-video', this.category);
       // TODO: #5 Fill with messages
     }
-    funcs.createChannel('introduce-yourself', this.category);
-    funcs.createChannel('chat', this.category);
+    createChannel('introduce-yourself', this.category);
+    createChannel('chat', this.category);
   }
   /**
    * Archives the category, including role permission changeoff
    */
   archiveCategory() {
-    const funcs = require('./functions');
     // TODO #6 edit this so that it can pass in its own category as a category object
-    funcs.archiveCategory(this.category);
+    archiveCategory(this.category, this.role, this.veteranRole);
   }
 }
 
@@ -63,7 +60,7 @@ export class OptionalRole {
    * @param {string} description Description to be displayed to students
    * @param {import('discord.js').Role} role object associated with course
    */
-  constructor(name: string, description: string | undefined, role: Role) {
+  constructor(name: string, role: Role, description: string = undefined) {
     this.name = name;
     this.description = description;
     this.role = role;

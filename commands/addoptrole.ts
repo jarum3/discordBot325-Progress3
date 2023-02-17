@@ -1,5 +1,6 @@
-import { ColorResolvable } from 'discord.js';
-import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption, ColorResolvable } from 'discord.js';
+import { OptionalRole } from 'helpers/role';
+import { getListFromFile, saveListToFile, generateColor } from 'helpers/functions';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,11 +16,9 @@ module.exports = {
         .setRequired(true))
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const funcs = require('../helpers/functions');
-    const roleData = require('../helpers/role');
     const roleName = interaction.options.getString('name');
     const description = interaction.options.getString('description');
-    const rolesList = funcs.getListFromFile('data/optroles.json');
+    const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
     const serverRoles = [];
     interaction.guild.roles.cache.forEach(r => {
       serverRoles.push(r.name);
@@ -34,10 +33,10 @@ module.exports = {
     let color: ColorResolvable;
     let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
     if (!role) {
-      color = funcs.generateColor();
+      color = generateColor();
       while (await interaction.guild.roles.cache.find(x => x.hexColor === color)) {
         // Keep generating a new color until no role matches it
-        color = funcs.generateColor();
+        color = generateColor();
       }
       role = await interaction.guild.roles.create({
         name: roleName,
@@ -54,13 +53,13 @@ module.exports = {
     else {
       color = role.hexColor;
     }
-    const newRole = new roleData.OptionalRole(
+    const newRole = new OptionalRole(
       roleName,
       role,
       description,
     );
     rolesList.push(newRole);
-    funcs.saveListToFile(rolesList, 'data/optroles.json');
+    saveListToFile(rolesList, 'data/optroles.json');
     interaction.reply({ content: 'Role added!', ephemeral: true });
   },
 };

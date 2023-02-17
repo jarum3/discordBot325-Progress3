@@ -1,14 +1,13 @@
 import { CourseRole } from './../helpers/role';
 import { ChatInputCommandInteraction, SelectMenuComponentOptionData, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
-
+import { getListFromFile } from 'helpers/functions';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('selectcoursesbuilder')
     .setDescription('Creates a dropdown menu in this channel for students to select their roles')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const funcs = require('../helpers/functions');
-    const rolesList = funcs.getListFromFile('data/courses.json');
+    const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     if (rolesList.length === 0) {
       await interaction.reply({ content: 'There are no courses currently in the list.', ephemeral: true });
       return;

@@ -1,4 +1,5 @@
-import { OptionalRole } from './../helpers/role';
+import { OptionalRole } from 'helpers/role';
+import { getListFromFile } from 'helpers/functions';
 import { ChatInputCommandInteraction, SelectMenuComponentOptionData, SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder } from "discord.js";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
@@ -7,8 +8,7 @@ module.exports = {
     .setDescription('Provides a dropdown to remove optional roles')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const funcs = require('../helpers/functions');
-    const rolesList = funcs.getListFromFile('data/optroles.json');
+    const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
     if (rolesList.length === 0) {
       await interaction.reply({ content: 'There are no roles currently in the list.', ephemeral: true });
       return;

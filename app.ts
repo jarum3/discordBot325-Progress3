@@ -2,7 +2,6 @@
  * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
  */
 // Dependencies
-require('dotenv').config();
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { Client, Collection, IntentsBitField } from 'discord.js';

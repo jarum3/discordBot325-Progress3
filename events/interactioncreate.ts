@@ -1,5 +1,7 @@
+import { OptionalRole } from './../helpers/role';
+import { CourseRole } from 'helpers/role';
 import { ChatInputCommandInteraction, Events, Collection, BaseInteraction, RoleManager, GuildMemberRoleManager } from 'discord.js';
-
+import { getListFromFile, saveListToFile } from 'helpers/functions';
 declare module 'discord.js' {
   export interface Client {
     commands: Collection<unknown, any>
@@ -26,8 +28,7 @@ module.exports = {
     if (interaction.isStringSelectMenu()) {
       if (interaction.customId === 'reaction-courses') {
         const addedCourses = [];
-        const funcs = require('../helpers/functions');
-        const rolesList = funcs.getListFromFile('data/courses.json');
+        const rolesList = getListFromFile('data/courses.json');
         const rolesSelected = interaction.values;
         // Assign roles
         for (const course of rolesList) {
@@ -49,8 +50,7 @@ module.exports = {
 
       if (interaction.customId === 'reaction-roles') {
         const addedRoles = [];
-        const funcs = require('../helpers/functions');
-        const rolesList = funcs.getListFromFile('data/optroles.json');
+        const rolesList = getListFromFile('data/optroles.json');
         const rolesSelected = interaction.values;
         // Assign roles
         for (const role of rolesList) {
@@ -71,8 +71,7 @@ module.exports = {
       }
 
       if (interaction.customId === 'remove-courses') {
-        const funcs = require('../helpers/functions');
-        const rolesList = funcs.getListFromFile('data/courses.json');
+        const rolesList = getListFromFile('data/courses.json') as CourseRole[];
         const rolesSelected = interaction.values;
         const removedRoles = [];
         // Assign roles
@@ -86,15 +85,14 @@ module.exports = {
             if (veteranRole && veteranRole.members.size === 0) interaction.guild.roles.delete(veteranRole, 'Deleted as part of course deletion');
             rolesList.splice(rolesList.indexOf(course), 1);
             removedRoles.push(course.name);
-            funcs.saveListToFile(rolesList, 'data/courses.json');
+            saveListToFile(rolesList, 'data/courses.json');
           }
         }
         await interaction.reply({ content: 'Courses removed: ' + removedRoles.join(', '), ephemeral: true });
       }
 
       if (interaction.customId === 'remove-roles') {
-        const funcs = require('../helpers/functions');
-        const rolesList = funcs.getListFromFile('data/optRoles.json');
+        const rolesList = getListFromFile('data/optRoles.json') as OptionalRole[];
         const rolesSelected = interaction.values;
         const removedRoles = [];
         // Assign roles
@@ -106,7 +104,7 @@ module.exports = {
             if (optRole) interaction.guild.roles.delete(optRole, 'Deleted as part of Optional Role deletion');
             rolesList.splice(rolesList.indexOf(course), 1);
             removedRoles.push(course.name);
-            funcs.saveListToFile(rolesList, 'data/optroles.json');
+            saveListToFile(rolesList, 'data/optroles.json');
           }
         }
         await interaction.reply({ content: 'Roles removed: ' + removedRoles.join(', '), ephemeral: true });
