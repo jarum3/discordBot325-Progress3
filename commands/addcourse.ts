@@ -78,8 +78,11 @@ module.exports = {
         video: video,
         jointClass: jointClassString,
       });
-      rolesList.push(newCourse);
-      saveListToFile(rolesList, 'data/courses.json');
+      const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
+      if (!newRolesList.includes(newCourse)) {
+        newRolesList.push(newCourse);
+        saveListToFile(newRolesList, 'data/courses.json');
+      }
     }
     else {
       const newCourse: CourseRole = new CourseRole({
@@ -89,9 +92,12 @@ module.exports = {
         veteranRole: veteranRole,
         video: video,
       });
-      rolesList.push(newCourse);
-      saveListToFile(rolesList, 'data/courses.json');
-      interaction.reply({ content: 'Course added!', ephemeral: true });
+      const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
+      if (!newRolesList.includes(newCourse)) {
+        newRolesList.push(newCourse);
+        saveListToFile(newRolesList, 'data/courses.json');
+        interaction.reply({ content: 'Course added!', ephemeral: true });
+      }
     }
   },
 };
