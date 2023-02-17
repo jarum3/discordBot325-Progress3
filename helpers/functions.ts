@@ -1,5 +1,5 @@
 import { ColorResolvable, Colors, Role, CategoryChannel, GuildTextBasedChannel } from 'discord.js';
-import { CourseRole, OptionalRole } from './role';
+import { CourseRole, OptionalRole } from 'helpers/role';
 import * as fs from 'node:fs';
 /* eslint-disable no-unused-vars */
 export async function getSemester() {

@@ -1,7 +1,7 @@
-import { OptionalRole } from './../helpers/role';
-import { CourseRole } from 'helpers/role';
 import { ChatInputCommandInteraction, Events, Collection, BaseInteraction, RoleManager, GuildMemberRoleManager } from 'discord.js';
+import { OptionalRole, CourseRole } from 'helpers/role';
 import { getListFromFile, saveListToFile } from 'helpers/functions';
+// Creating interface for client to access commands
 declare module 'discord.js' {
   export interface Client {
     commands: Collection<unknown, any>
