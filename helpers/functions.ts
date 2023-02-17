@@ -1,4 +1,4 @@
-import { ColorResolvable, Colors, Role, CategoryChannel, GuildTextBasedChannel } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 /* eslint-disable no-unused-vars */
