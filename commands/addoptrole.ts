@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption, ColorResolvable } from 'discord.js';
 import { OptionalRole } from '../helpers/role';
-import { getListFromFile, saveListToFile, generateColor } from '../helpers/functions';
+import { getListFromFile, saveListToFile, generateColor, createRole } from '../helpers/functions';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
@@ -31,27 +31,17 @@ module.exports = {
       }
     }
     let color: ColorResolvable;
-    let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
+    let role = interaction.guild.roles.cache.find(x => x.name.toLowerCase() === roleName.toLowerCase());
     if (!role) {
       color = generateColor();
-      while (await interaction.guild.roles.cache.find(x => x.hexColor === color)) {
+      while (interaction.guild.roles.cache.find(x => x.hexColor as ColorResolvable === color)) {
         // Keep generating a new color until no role matches it
         color = generateColor();
       }
-      role = await interaction.guild.roles.create({
-        name: roleName,
-        color: color,
-      })
-        .then(x => {
-          return x;
-        })
-        .catch(x => {
-          console.error('Something went wrong when creating role ' + x.name);
-          return undefined;
-        });
+      role = await createRole(interaction.guild, roleName, color);
     }
     else {
-      color = role.hexColor;
+      color = role.hexColor as ColorResolvable;
     }
     const newRole = new OptionalRole(
       roleName,

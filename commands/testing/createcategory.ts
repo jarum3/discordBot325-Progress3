@@ -1,5 +1,5 @@
-import { SlashCommandStringOption, SlashCommandBuilder, ChannelType, PermissionsBitField, OverwriteType, SlashCommandRoleOption, ChatInputCommandInteraction } from "discord.js";
-
+import { SlashCommandStringOption, SlashCommandBuilder, ChannelType, PermissionsBitField, OverwriteType, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from "discord.js";
+import { createCategory } from "../../helpers/functions";
 // Creates a new category, at the bottom, locked to the given role.
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,27 +15,8 @@ module.exports = {
 
   async execute(interaction: ChatInputCommandInteraction) {
     const name = interaction.options.getString('name');
-    const role = interaction.options.getRole('role');
-    await interaction.guild.channels.create({
-      name: name,
-      type: ChannelType.GuildCategory,
-      permissionOverwrites: [
-        {
-          id: interaction.guild.id,
-          deny: [PermissionsBitField.Flags.ViewChannel],
-          type: OverwriteType.Role,
-        },
-        {
-          id: role.id,
-          allow: [PermissionsBitField.Flags.ViewChannel],
-          type: OverwriteType.Role,
-        },
-      ],
-    })
-      .then(category => interaction.reply('Created category: ' + category.name))
-      .catch(category => {
-        interaction.reply('Error creating category.');
-        console.log('Error creating category: ' + category.name);
-      });
+    const role = interaction.options.getRole('role') as Role;
+    const category = await createCategory(name, role);
+    await interaction.reply({ content: 'Category created', ephemeral: true });
   },
 };

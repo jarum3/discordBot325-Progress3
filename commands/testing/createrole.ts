@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, Role, ColorResolvable } from 'discord.js';
-import { isColor } from '../../helpers/functions';
+import { createRole, isColor } from '../../helpers/functions';
 // Creates a new role with a given name and color
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,21 +18,10 @@ module.exports = {
     const color = interaction.options.getString('color');
     // Create a new role
     if (isColor(color)) {
-      await interaction.guild.roles.create({
-        name: name,
-        color: color as ColorResolvable,
-      })
-        .then(x => {
-          return x;
-        })
-        .catch(x => {
-          console.error('Something went wrong when creating role ' + x.name);
-          return undefined;
-        });
-      await interaction.reply('New role created!');
+      const role = await createRole(interaction.guild, name, color as ColorResolvable);
+      if (role) await interaction.reply('New role created!');
+      else await interaction.reply('Something went wrong while creating the role.');
     }
-    else {
-      await interaction.reply('That color code is invalid.');
-    }
+    else await interaction.reply('That color code is invalid.');
   },
 };

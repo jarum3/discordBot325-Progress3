@@ -1,4 +1,4 @@
-import { ColorResolvable, Colors, Role, CategoryChannel } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, GuildTextBasedChannel, TextChannel, PermissionsBitField, OverwriteType } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 /* eslint-disable no-unused-vars */
@@ -7,15 +7,61 @@ export async function getSemester() {
   return 0;
 }
 
-export async function createChannel(name: string, categpry: CategoryChannel)/*: Promise<GuildTextBasedChannel>*/ {
+export async function createChannel(guild: Guild, name: string) {
+  return guild.channels.create({
+    name: name,
+    type: ChannelType.GuildText,
+  })
+    .then(channel => {
+      return channel;
+    })
+    .catch(channel => {
+      console.log('Error creating channel: ' + channel.name);
+      return undefined;
+    });
 }
 
-export async function createCategory(name: string, role: Role)/*: Promise<CategoryChannel>*/ {
-
+export async function createCategory(name: string, role: Role): Promise<CategoryChannel> {
+  return role.guild.channels.create({
+    name: name,
+    type: ChannelType.GuildCategory,
+    permissionOverwrites: [
+      {
+        id: role.guild.id,
+        deny: [PermissionsBitField.Flags.ViewChannel],
+        type: OverwriteType.Role,
+      },
+      {
+        id: role.id,
+        allow: [PermissionsBitField.Flags.ViewChannel],
+        type: OverwriteType.Role,
+      },
+    ],
+  })
+    .then(category => {
+      return category
+    })
+    .catch(category => {
+      return undefined;
+    });
 }
 
 export async function archiveCategory(category: CategoryChannel, originalRole: Role, newRole: Role): Promise<void> {
 
+}
+
+export async function createRole(guild: Guild, name: string, color: ColorResolvable): Promise<Role> {
+  return guild.roles.create({
+    name: name,
+    color: color as ColorResolvable,
+  })
+    .then(role => {
+      return role;
+    })
+    .catch(role => {
+      console.error('Error creating role ' + role.name);
+      return undefined;
+    });
 }
 /**
  * Writes a list to given file as JSON

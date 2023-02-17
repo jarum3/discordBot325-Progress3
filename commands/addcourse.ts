@@ -1,5 +1,5 @@
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
-import { generateColor, getListFromFile, adjustColor, saveListToFile } from "../helpers/functions";
+import { generateColor, getListFromFile, adjustColor, saveListToFile, createRole } from "../helpers/functions";
 import { CourseRole } from "../helpers/role";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
@@ -44,42 +44,22 @@ module.exports = {
     }
     const roleName = prefix + '-' + number;
     let color: ColorResolvable;
-    let role = await interaction.guild.roles.cache.find(x => x.name === roleName);
-    let veteranRole = await interaction.guild.roles.cache.find(x => x.name === roleName + ' Veteran');
+    let role = interaction.guild.roles.cache.find(x => x.name.toLowerCase() === roleName.toLowerCase());
+    let veteranRole = interaction.guild.roles.cache.find(x => x.name.toLowerCase() === roleName.toLowerCase() + ' veteran');
     if (!role) {
       color = generateColor();
-      while (await interaction.guild.roles.cache.find(x => x.hexColor === color)) {
+      while (interaction.guild.roles.cache.find(x => x.hexColor as ColorResolvable === color)) {
         // Keep generating a new color until no role matches it
         color = generateColor();
       }
-      role = await interaction.guild.roles.create({
-        name: roleName,
-        color: color,
-      })
-        .then(x => {
-          return x;
-        })
-        .catch(x => {
-          console.error('Something went wrong when creating role ' + x.name);
-          return undefined;
-        });
+      role = await createRole(interaction.guild, roleName, color);
     }
     else {
       color = role.hexColor;
     }
     if (!veteranRole) {
       const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
-      veteranRole = await interaction.guild.roles.create({
-        name: roleName + ' Veteran',
-        color: veteranColor,
-      })
-        .then(x => {
-          return x;
-        })
-        .catch(x => {
-          console.error('Something went wrong when creating role ' + x.name);
-          return undefined;
-        });
+      veteranRole = await createRole(interaction.guild, roleName + ' Veteran', veteranColor);
     }
     const newCourse: CourseRole = new CourseRole({
       prefix: prefix,

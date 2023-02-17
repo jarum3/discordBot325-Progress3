@@ -43,14 +43,21 @@ export class CourseRole {
     const courseName = this.jointClass ? this.prefix + ' ' + this.number + ' / ' + this.jointClass : this.prefix + ' ' + this.number;
     // TODO move category code in here so that it can return its promise
     // this.category = await createCategory(courseName + ' - ' + getSemester(), this.role);
-    createChannel('announcements-' + this.number, this.category);
-    createChannel('zoom-meeting-info-' + this.number, this.category);
+    this.createChannelInCat('announcements-' + this.number, this.category);
+    this.createChannelInCat('zoom-meeting-info-' + this.number, this.category);
     if (this.video) {
-      createChannel('how-to-make-a-video', this.category);
+      this.createChannelInCat('how-to-make-a-video', this.category);
       // TODO: #5 Fill with messages
     }
-    createChannel('introduce-yourself', this.category);
-    createChannel('chat', this.category);
+    this.createChannelInCat('introduce-yourself', this.category);
+    this.createChannelInCat('chat', this.category);
+  }
+  async createChannelInCat(name: string, category: CategoryChannel) {
+    const newChannel = await createChannel(category.guild, name);
+    if (newChannel) {
+      newChannel.setParent(category);
+      newChannel.lockPermissions();
+    }
   }
   /**
    * Archives the category, including role permission changeoff
