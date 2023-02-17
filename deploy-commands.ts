@@ -1,14 +1,16 @@
+import { REST, Routes } from 'discord.js';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+import * as dotenv from 'dotenv';
+
 function deployCommands(): void {
   /**
    * Deploys commands using the discord REST Api, and utilizing .env variables
    * @remarks
    * This function serves primarily as a standalone script
    */
-  const { REST, Routes } = require('discord.js');
-  const fs = require('node:fs');
-  const path = require('node:path');
-  require('dotenv').config();
 
+  dotenv.config();
   const commands = [];
   const commandsPath = path.join(__dirname, 'commands'); // Grabbing command directory
   const currentFileExtension = '.' + __filename.split('.').slice(-1);
@@ -52,7 +54,7 @@ function deployCommands(): void {
       const data = await rest.put(
         Routes.applicationCommands(process.env.CLIENT_ID),
         { body: commands },
-      );
+      ) as string[];
 
       console.log(`Successfully reloaded ${data.length} application (/) commands.`);
     }

@@ -3,9 +3,11 @@
  */
 // Dependencies
 require('dotenv').config();
-const fs = require('node:fs');
-const path = require('node:path');
-const { Client, Collection, IntentsBitField } = require('discord.js');
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+import { Client, Collection, IntentsBitField } from 'discord.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 const botIntents = new IntentsBitField();
 // Declaring intents
 botIntents.add(IntentsBitField.Flags.GuildMessages);
