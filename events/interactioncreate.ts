@@ -49,7 +49,7 @@ module.exports = {
       }
 
       if (interaction.customId === 'reaction-roles') {
-        const addedRoles = [];
+        const addedRoles: string[] = [];
         const rolesList = getListFromFile('data/optroles.json');
         const rolesSelected = interaction.values;
         // Assign roles
@@ -73,7 +73,7 @@ module.exports = {
       if (interaction.customId === 'remove-courses') {
         const rolesList = getListFromFile('data/courses.json') as CourseRole[];
         const rolesSelected = interaction.values;
-        const removedRoles = [];
+        const removedRoles: string[] = [];
         // Assign roles
         for (const selectedElement of rolesSelected) {
           for (const course of rolesList) {
@@ -94,7 +94,7 @@ module.exports = {
       if (interaction.customId === 'remove-roles') {
         const rolesList = getListFromFile('data/optRoles.json') as OptionalRole[];
         const rolesSelected = interaction.values;
-        const removedRoles = [];
+        const removedRoles: string[] = [];
         // Assign roles
         for (const selectedElement of rolesSelected) {
           for (const course of rolesList) {
