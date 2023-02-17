@@ -4,3 +4,4 @@ package-lock.json
 jsconfig.json
 /build
 /.vscode
+/doc
