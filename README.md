@@ -27,12 +27,6 @@ Since Discord puts a rate limit to the number of times you can submit commands i
 Run [deploy-commands.js](deploy-commands.js) after adding any new command files, or on a new bot.
 
 # Description of progress
-## Updates from previous starting point
-- [x] **Lock permissions for essentially all current slash-commands behind administrative privileges**
-- [x] Adjusting structure of roles and functions to be more practical
-- [x] Commands for adding and dropping courses and optional roles from saved lists
-- [x] Commands for generating a dropdown that both displays that list, and assigns roles to members on interactions
-- [x] Separation into testing commands for easier deployment
 
 ## To-do
 - [ ] Create functionality to create, populate, and archive categories and attach those to role objects
@@ -45,6 +39,11 @@ Run [deploy-commands.js](deploy-commands.js) after adding any new command files,
 - [ ] Optionally, implement anonymized polls and a submission box.
 
 ## Previous features
+- [x] **Lock permissions for essentially all current slash-commands behind administrative privileges**
+- [x] Adjusting structure of roles and functions to be more practical
+- [x] Commands for adding and dropping courses and optional roles from saved lists
+- [x] Commands for generating a dropdown that both displays that list, and assigns roles to members on interactions
+- [x] Separation into testing commands for easier deployment
 - [x] Generating random valid colors (Sourced from [here](https://css-tricks.com/snippets/javascript/random-hex-color/)), and adjusting the brightness of those colors by a certain amount (Sourced from [here](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors))
 - [x] Checking input colors against a regular expression to ensure validity
 - [x] Creating roles, channels, and categories programmatically
