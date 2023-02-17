@@ -1,4 +1,9 @@
-function deployCommands() {
+function deployCommands(): void {
+  /**
+   * Deploys commands using the discord REST Api, and utilizing .env variables
+   * @remarks
+   * This function serves primarily as a standalone script
+   */
   const { REST, Routes } = require('discord.js');
   const fs = require('node:fs');
   const path = require('node:path');

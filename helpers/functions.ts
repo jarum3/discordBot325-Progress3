@@ -24,14 +24,27 @@ export function isColor(strColor: any): boolean {
 }
 
 export function capitalizeString(string: string): string {
+  /**
+   * @param string - String to be capitalized
+   * @returns string with first character capitalized
+   */
   return string.charAt(0).toUpperCase + string.slice(1);
 }
 
 export function generateColor(): ColorResolvable {
+  /**
+   * @returns random hex code as 6-character ColorResolvable
+   */
   return Math.floor(Math.random() * 16777215).toString(16) as ColorResolvable;
 }
 
 export function adjustColor(col: string, amt: number): string | undefined {
+  /**
+   * Adjusts a color's brightness by a number value
+   * @param col - Color to be adjusted, as a 6-character hexadecimal string
+   * @param amt - Amount to adjust by, positive values create a brighter color and negative values create a dimmer color
+   * @returns The color input adjusted by amt value, or undefined if string is invalid
+   */
   if (!isColor(col)) return undefined;
   let usePound = false;
   if (col[0] == '#') {

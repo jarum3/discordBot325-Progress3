@@ -1,3 +1,6 @@
+/**
+ * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
+ */
 // Dependencies
 require('dotenv').config();
 const fs = require('node:fs');
