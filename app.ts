@@ -1,3 +1,6 @@
+/**
+ * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
+ */
 // Dependencies
 require('dotenv').config();
 const fs = require('node:fs');
@@ -11,8 +14,9 @@ client.commands = new Collection();
 // Reading commands and adding them to collection
 
 const commandsPath = path.join(__dirname, 'commands'); // Grabbing command directory
-// Grabbing all files ending in .js
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const currentFileExtension = '.' + __filename.split('.').slice(-1);
+// Grabbing all files ending in current file extension (.ts for typescript, .js for javascript)
+const commandFiles = fs.readdirSync(commandsPath).filter((file: string) => file.endsWith(currentFileExtension));
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
@@ -31,7 +35,7 @@ for (const file of commandFiles) {
 // Processing env string as boolean
 if (process.env.testing.toLowerCase() === 'true') {
   const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing tests directory
-  const testingFiles = fs.readdirSync(testingPath).filter(file => file.endsWith('.js'));
+  const testingFiles = fs.readdirSync(testingPath).filter((file: string) => file.endsWith(currentFileExtension));
 
 
   for (const file of testingFiles) {
@@ -49,16 +53,16 @@ if (process.env.testing.toLowerCase() === 'true') {
 }
 
 const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.endsWith(currentFileExtension));
 
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
   const event = require(filePath);
   if (event.once) { // If the event only runs once, use once
-    client.once(event.name, (...args) => event.execute(...args)); // Using rest and spread to pass all arguments
+    client.once(event.name, (...args: any) => event.execute(...args)); // Using rest and spread to pass all arguments
   }
   else {
-    client.on(event.name, (...args) => event.execute(...args));
+    client.on(event.name, (...args: any) => event.execute(...args));
   }
 }
 

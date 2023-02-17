@@ -1,8 +1,7 @@
-const { Events } = require('discord.js');
-
+import { User, Events } from 'discord.js';
 module.exports = {
   name: Events.GuildMemberAdd,
-  execute(member) {
+  execute(member: User) {
     console.log(`The following user has joined: ${member.tag}`);
   },
 };
