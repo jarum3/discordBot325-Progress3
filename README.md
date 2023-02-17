@@ -38,6 +38,11 @@ Run [deploy-commands.js](deploy-commands.js) after adding any new command files,
 - [ ] Create functionality to create, populate, and archive categories and attach those to role objects
 - [ ] Validate file saving further to reduce concurrency conflicts
 - [ ] Clean up edge cases for role deletions outside of bot interactions
+- [ ] Create semester tracking system, attaching semester value to category names
+- [ ] Create list of archived courses to keep track of, separate from removing a course
+- [ ] Implement everything together with one start semester command, taking a semester's name as an argument. This should implement everything done so far for every course object, archiving old courses, creating roles if necessary. Then it should ask if the user is sure they'd like to do this, with a list of courses that will be added and a list of courses that will be archived.
+- [ ] Implement a rollback feature to undo this semester change, using data entered during the semester starting process to undo each action step by step
+- [ ] Optionally, implement anonymized polls and a submission box.
 
 ## Previous features
 - [x] Generating random valid colors (Sourced from [here](https://css-tricks.com/snippets/javascript/random-hex-color/)), and adjusting the brightness of those colors by a certain amount (Sourced from [here](https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors))
