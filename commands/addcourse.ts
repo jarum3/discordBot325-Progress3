@@ -1,5 +1,5 @@
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
-import { generateColor, getListFromFile, adjustColor, saveListToFile, createRole } from "../helpers/functions";
+import { generateColor, getListFromFile, adjustColor, saveListToFile, createRole, RoleSelectMenu, CourseSelectMenu } from "../helpers/functions";
 import { CourseRole } from "../helpers/role";
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
@@ -27,11 +27,9 @@ module.exports = {
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
     const video = interaction.options.getBoolean('video');
-    const jointClassTrue = interaction.options.getBoolean('jointclass');
-    let jointClass;
+    const jointClass = interaction.options.getBoolean('jointclass');
     const rolesList: CourseRole[] = getListFromFile('data/courses.json') as CourseRole[];
     const serverRoles = [];
-    // TODO add handling for joint courses, generate a dropdown, get an interaction, then edit the message with the dropdown with the interaction reply
     interaction.guild.roles.cache.forEach(r => {
       serverRoles.push(r.name);
     });
@@ -61,16 +59,39 @@ module.exports = {
       const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
       veteranRole = await createRole(interaction.guild, roleName + ' Veteran', veteranColor);
     }
-    const newCourse: CourseRole = new CourseRole({
-      prefix: prefix,
-      number: number,
-      role: role,
-      veteranRole: veteranRole,
-      video: video,
-      jointClass: jointClass,
-    });
-    rolesList.push(newCourse);
-    saveListToFile(rolesList, 'data/courses.json');
-    interaction.reply({ content: 'Course added!', ephemeral: true });
+    if (jointClass) {
+      const row = await CourseSelectMenu('joint-course', false);
+      if (row) await interaction.reply({ content: 'Please select a course to share a category with', components: [row] });
+      else {
+        await interaction.reply({ content: 'There are no courses defined currently, please define a course before adding a joint course under it.', ephemeral: true })
+        return;
+      }
+      while ((await interaction.fetchReply()).components.length > 0) {
+        continue;
+      }
+      const jointClassString = (await interaction.fetchReply()).toString().split(' ')[0];
+      const newCourse: CourseRole = new CourseRole({
+        prefix: prefix,
+        number: number,
+        role: role,
+        veteranRole: veteranRole,
+        video: video,
+        jointClass: jointClassString,
+      });
+      rolesList.push(newCourse);
+      saveListToFile(rolesList, 'data/courses.json');
+    }
+    else {
+      const newCourse: CourseRole = new CourseRole({
+        prefix: prefix,
+        number: number,
+        role: role,
+        veteranRole: veteranRole,
+        video: video,
+      });
+      rolesList.push(newCourse);
+      saveListToFile(rolesList, 'data/courses.json');
+      interaction.reply({ content: 'Course added!', ephemeral: true });
+    }
   },
 };

@@ -1,4 +1,4 @@
-import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, GuildTextBasedChannel, TextChannel, PermissionsBitField, OverwriteType } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, GuildTextBasedChannel, TextChannel, PermissionsBitField, OverwriteType, StringSelectMenuComponent, ActionRowBuilder, SelectMenuComponentOptionData, StringSelectMenuBuilder } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 
@@ -64,6 +64,40 @@ export async function createCategory(name: string, role: Role): Promise<Category
     .catch(category => {
       return undefined;
     });
+}
+
+export async function RoleSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
+  const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
+  if (rolesList.length === 0) {
+    return undefined;
+  }
+  const options: SelectMenuComponentOptionData[] = [];
+  rolesList.forEach((element: OptionalRole) => options.push({ label: element.name, description: element.description, value: element.name }));
+  const max = multi ? options.length : 1;
+  const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
+    .setCustomId(customId)
+    .setPlaceholder('Nothing selected')
+    .setMinValues(1)
+    .setMaxValues(max)
+    .addOptions(options));
+  return row;
+}
+
+export async function CourseSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
+  const rolesList = getListFromFile('data/courses.json') as CourseRole[];
+  if (rolesList.length === 0) {
+    return undefined;
+  }
+  const options: SelectMenuComponentOptionData[] = [];
+  rolesList.forEach((element: CourseRole) => options.push({ label: element.name, description: element.name, value: element.name }));
+  const max = multi ? options.length : 1;
+  const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
+    .setCustomId(customId)
+    .setPlaceholder('Nothing selected')
+    .setMinValues(1)
+    .setMaxValues(max)
+    .addOptions(options));
+  return row;
 }
 
 export async function archiveCategory(category: CategoryChannel, originalRole: Role, newRole: Role): Promise<void> {

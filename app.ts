@@ -44,8 +44,6 @@ if (process.env.testing) testing = process.env.testing.toLowerCase() === 'true';
 if (testing) {
   const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing tests directory
   const testingFiles = fs.readdirSync(testingPath).filter((file: string) => file.endsWith(currentFileExtension));
-
-
   for (const file of testingFiles) {
     const filePath = path.join(testingPath, file);
     const command = require(filePath);

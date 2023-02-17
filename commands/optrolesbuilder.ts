@@ -1,25 +1,13 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, SelectMenuComponentOptionData, APIActionRowComponent, APIMessageActionRowComponent } from 'discord.js';
-import { OptionalRole } from '../helpers/role';
-import { getListFromFile } from '../helpers/functions';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { RoleSelectMenu } from '../helpers/functions';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('optrolesbuilder')
     .setDescription('Creates a dropdown menu in this channel for students to select optional roles')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
-    if (rolesList.length === 0) {
-      await interaction.reply({ content: 'There are no roles currently in the list.', ephemeral: true });
-      return;
-    }
-    const options: SelectMenuComponentOptionData[] = [];
-    rolesList.forEach((element: OptionalRole) => options.push({ label: element.name, description: element.description, value: element.name }));
-    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
-      .setCustomId('reaction-roles')
-      .setPlaceholder('Nothing selected')
-      .setMinValues(1)
-      .setMaxValues(options.length) // Registers as a multi-choice menu when more than 1 role is available
-      .addOptions(options));
-    await interaction.reply({ content: 'Please select which roles you would like to add:', components: [row] });
+    const row = await RoleSelectMenu('reaction-roles', true);
+    if (row) await interaction.reply({ content: 'Please select which roles you would like to add:', components: [row] });
+    else await interaction.reply({ content: 'There are no optional roles defined currently.', ephemeral: true })
   },
 };
