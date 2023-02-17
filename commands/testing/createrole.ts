@@ -18,7 +18,7 @@ module.exports = {
     const color = interaction.options.getString('color');
     // Create a new role
     if (isColor(color)) {
-      const role: Role = await interaction.guild.roles.create({
+      await interaction.guild.roles.create({
         name: name,
         color: color as ColorResolvable,
       })
