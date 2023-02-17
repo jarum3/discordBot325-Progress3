@@ -1,13 +1,24 @@
 import { CategoryChannel, Role } from "discord.js";
 import { createChannel, archiveCategory } from './functions';
+/**
+ * A class to store course role data, including a veteran role and data on course attributes
+ */
 export class CourseRole {
+  /** Prefix for course, examples: CSC, CIS, SOC */
   prefix: string;
+  /** Number for course, examples: 101, 300, 325 */
   number: string;
+  /** Name of course, optional, automatically generated based on prefix and number if omitted */
   name: string;
+  /** Role for active students */
   role: Role;
+  /** Role for students that have passed through a class, should be able to access archives */
   veteranRole: Role;
+  /** Whether or not the course requires video information */
   video: Boolean;
+  /** A course to share a category with this course, one-directional (Child class has joint class, parent class does not.) */
   jointClass: string | undefined;
+  /** Keeps track of the category associated with this class */
   category: CategoryChannel;
   /**
    * @constructor
@@ -50,9 +61,15 @@ export class CourseRole {
   }
 }
 
+/**
+ * A class to handle optional roles, includes a description that is displayed to students
+ */
 export class OptionalRole {
+  /** Holds name of optional role */
   name: string;
+  /** A description of what the role signifies, displayed to students when selecting */
   description: string;
+  /** Associated role to be assigned */
   role: Role;
   /**
    * @constructor
