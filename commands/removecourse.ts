@@ -7,7 +7,7 @@ module.exports = {
     .setDescription('Provides a dropdown to remove courses')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const row = await CourseSelectMenu('course-remove', true);
+    const row = await CourseSelectMenu('course-remove', false);
     if (row) await interaction.reply({ content: 'Please select which courses you\'d like to remove:', components: [row], ephemeral: true });
     else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true })
   },

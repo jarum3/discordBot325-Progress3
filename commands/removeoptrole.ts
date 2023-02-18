@@ -7,7 +7,7 @@ module.exports = {
     .setDescription('Provides a dropdown to remove optional roles')
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const row = await RoleSelectMenu('role-remove', true);
+    const row = await RoleSelectMenu('role-remove', false);
     if (row) await interaction.reply({ content: 'Please select which roles you\'d like to remove:', components: [row], ephemeral: true });
     else await interaction.reply({ content: 'There are no optional roles defined currently.', ephemeral: true })
   },

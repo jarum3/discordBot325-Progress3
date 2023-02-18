@@ -14,7 +14,10 @@ declare module 'discord.js' {
 }
 const botIntents = new IntentsBitField();
 // Declaring intents
-botIntents.add(IntentsBitField.Flags.GuildMessages);
+botIntents.add([
+  IntentsBitField.Flags.GuildMessages,
+  IntentsBitField.Flags.Guilds,
+]);
 const client = new Client({ intents: botIntents }); // Creates client with intents in botIntents
 client.commands = new Collection();
 // Reading commands and adding them to collection

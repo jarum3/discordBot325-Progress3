@@ -1,9 +1,13 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-// Pings, returns time pinged. A template for other commands.
+import { CourseSelectMenu } from '../../helpers/functions';
 module.exports = {
-  data: new SlashCommandBuilder().setName('createcoursecategory').setDescription('Takes a course from a dropdown and turns it into a populated category'),
+  data: new SlashCommandBuilder()
+    .setName('createcoursecategory')
+    .setDescription('Takes a course from a dropdown and turns it into a populated category')
+    .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
-    interaction.editReply(`Pong!\nTook ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
+    const row = await CourseSelectMenu('create-category', false);
+    if (row) await interaction.reply({ content: 'Please select which course you\'d like to create a category for:', components: [row], ephemeral: true });
+    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true })
   },
 };

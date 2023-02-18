@@ -1,4 +1,4 @@
-import { CategoryChannel, Role, TextChannel } from "discord.js";
+import { CategoryChannel, Guild, Role, TextChannel } from "discord.js";
 import { createChannel, archiveCategory, createCategory, getSemester, parseLines } from './functions';
 /**
  * A class to store course role data, including a veteran role and data on course attributes
@@ -34,33 +34,6 @@ export class CourseRole {
     if (video) this.video = video;
     else this.video = false;
     this.jointClass = jointClass;
-  }
-
-  /**
-   * Creates a category, then populates it with channels
-   */
-  async createAndPopulateCategory(): Promise<void> {
-    const categoryName = this.jointClass
-      ? this.prefix + ' ' + this.number + ' / ' + this.jointClass + ' - ' + getSemester()
-      : this.prefix + ' ' + this.number + ' - ' + getSemester();
-    this.category = await createCategory(categoryName, this.role);
-    this.createChannelInCat('announcements-' + this.number);
-    this.createChannelInCat('zoom-meeting-info-' + this.number);
-    if (this.video) {
-      const videoChannel = await this.createChannelInCat('how-to-make-a-video');
-      const messages = parseLines('../data/videoMessages.txt');
-      messages.forEach(message => videoChannel.send(message));
-    }
-    this.createChannelInCat('introduce-yourself');
-    this.createChannelInCat('chat');
-  }
-  async createChannelInCat(name: string): Promise<TextChannel> {
-    const newChannel = await createChannel(this.category.guild, name);
-    if (newChannel) {
-      newChannel.setParent(this.category);
-      newChannel.lockPermissions();
-    }
-    return newChannel;
   }
   /**
    * Archives the category, including role permission changeoff

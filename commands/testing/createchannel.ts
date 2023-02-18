@@ -15,7 +15,6 @@ module.exports = {
         .addChannelTypes(ChannelType.GuildCategory))
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
-    console.log(interaction.channel);
     const name = interaction.options.getString('name');
     const category = interaction.options.getChannel('category') as CategoryChannel;
     const newChannel: TextChannel = await createChannel(interaction.guild, name);

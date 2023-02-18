@@ -1,6 +1,6 @@
 import { Events, BaseInteraction, GuildMemberRoleManager } from 'discord.js';
 import { OptionalRole, CourseRole } from '../helpers/role';
-import { getListFromFile, saveListToFile } from '../helpers/functions';
+import { createAndPopulateCategory, getListFromFile, saveListToFile } from '../helpers/functions';
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -92,6 +92,16 @@ module.exports = {
 
     if (interaction.customId === 'joint-course') {
       interaction.update({ content: interaction.values[0] + ' selected!', components: [] });
+    }
+
+    if (interaction.customId === 'create-category') {
+      const RolesList = getListFromFile('data/courses.json') as CourseRole[];
+      const courseSelectedString = interaction.values[0];
+      const selectedCourse = RolesList.find((element: CourseRole) => element.name === courseSelectedString);
+      const guild = interaction.guild;
+      await interaction.deferUpdate()
+      await createAndPopulateCategory(selectedCourse, guild.channels);
+      await interaction.editReply({ content: 'Category created!', components: [] });
     }
   }
 }

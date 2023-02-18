@@ -1,4 +1,4 @@
-import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, GuildTextBasedChannel, TextChannel, PermissionsBitField, OverwriteType, StringSelectMenuComponent, ActionRowBuilder, SelectMenuComponentOptionData, StringSelectMenuBuilder } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, TextChannel, PermissionsBitField, OverwriteType, ActionRowBuilder, SelectMenuComponentOptionData, StringSelectMenuBuilder, GuildChannelManager, NewsChannel } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 
@@ -7,7 +7,8 @@ import * as fs from 'node:fs';
  * @returns {string} string of first line of semester file, which should contain current semester
  */
 export function getSemester(): string {
-  return fs.readFileSync('../data/currentsemester.txt').toString().split('\n')[0];
+  if (!fs.existsSync('data/currentsemester.txt')) fs.writeFileSync('data/currentsemester.txt', '');
+  return fs.readFileSync('data/currentsemester.txt').toString().split('\n')[0];
 }
 
 /**
@@ -15,7 +16,7 @@ export function getSemester(): string {
  * @param string The value of the current semester
  */
 export function writeSemester(string: string): void {
-  fs.writeFileSync('../data/currentsemester.txt', string);
+  fs.writeFileSync('data/currentsemester.txt', string);
 }
 
 /**
@@ -36,34 +37,42 @@ export async function createChannel(guild: Guild, name: string): Promise<TextCha
       return channel;
     })
     .catch(channel => {
-      console.log('Error creating channel: ' + channel.name);
+      console.error('Error creating channel: ' + channel.name);
       return undefined;
     });
 }
 
-export async function createCategory(name: string, role: Role): Promise<CategoryChannel> {
-  return role.guild.channels.create({
-    name: name,
-    type: ChannelType.GuildCategory,
-    permissionOverwrites: [
-      {
-        id: role.guild.id,
-        deny: [PermissionsBitField.Flags.ViewChannel],
-        type: OverwriteType.Role,
-      },
-      {
-        id: role.id,
-        allow: [PermissionsBitField.Flags.ViewChannel],
-        type: OverwriteType.Role,
-      },
-    ],
-  })
-    .then(category => {
-      return category
-    })
-    .catch(category => {
-      return undefined;
+export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role = undefined,): Promise<CategoryChannel> {
+  if (role) {
+    return ChannelManager.create({
+      name: name,
+      type: ChannelType.GuildCategory,
+      permissionOverwrites: [
+        {
+          id: ChannelManager.guild.id,
+          deny: [PermissionsBitField.Flags.ViewChannel],
+          type: OverwriteType.Role,
+        },
+        {
+          id: role.id,
+          allow: [PermissionsBitField.Flags.ViewChannel],
+          type: OverwriteType.Role,
+        },
+      ],
     });
+  }
+  else {
+    return ChannelManager.create({
+      name: name,
+      type: ChannelType.GuildCategory,
+    })
+      .then(category => {
+        return category;
+      })
+      .catch(category => {
+        return undefined;
+      })
+  }
 }
 
 export async function RoleSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
@@ -72,14 +81,22 @@ export async function RoleSelectMenu(customId: string, multi: boolean): Promise<
     return undefined;
   }
   const options: SelectMenuComponentOptionData[] = [];
+  let row: ActionRowBuilder<StringSelectMenuBuilder>;
   rolesList.forEach((element: OptionalRole) => options.push({ label: element.name, description: element.description, value: element.name }));
-  const max = multi ? options.length : 1;
-  const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
-    .setCustomId(customId)
-    .setPlaceholder('Nothing selected')
-    .setMinValues(1)
-    .setMaxValues(max)
-    .addOptions(options));
+  if (multi) {
+    row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
+      .setCustomId(customId)
+      .setPlaceholder('Nothing selected')
+      .setMinValues(1)
+      .setMaxValues(options.length)
+      .addOptions(options));
+  }
+  else {
+    row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(new StringSelectMenuBuilder()
+      .setCustomId(customId)
+      .setPlaceholder('Nothing selected')
+      .addOptions(options));
+  }
   return row;
 }
 
@@ -123,7 +140,7 @@ export async function createRole(guild: Guild, name: string, color: ColorResolva
  * @param {string} file - Valid file path to read from
  */
 export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string): void {
-  // TODO Verify that this works
+  // TODO Solve possible concurrency problems
   const listJson = JSON.stringify(list);
   fs.writeFileSync(file, listJson, 'utf-8');
 }
@@ -133,7 +150,7 @@ export function saveListToFile(list: CourseRole[] | OptionalRole[], file: string
  * @returns {import('./role').CourseRole[] | import('./role').OptionalRole[]}
  */
 export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
-  // TODO verify that this works
+  // TODO Solve possible concurrency problems
   if (!fs.existsSync(file)) fs.writeFileSync(file, '[]');
   const text = fs.readFileSync(file).toString('utf-8');
   return JSON.parse(text);
@@ -164,6 +181,39 @@ export function capitalizeString(string: string): string {
  */
 export function generateColor(): ColorResolvable {
   return Math.floor(Math.random() * 16777215).toString(16) as ColorResolvable;
+}
+
+export async function createAndPopulateCategory(course: CourseRole, ChannelManager: GuildChannelManager) {
+  const categoryName = course.jointClass
+    ? course.prefix + ' ' + course.number + ' / ' + course.jointClass + ' - ' + getSemester()
+    : course.prefix + ' ' + course.number + ' - ' + getSemester();
+  course.category = await createCategory(categoryName, ChannelManager, course.role);
+  createChannelInCat(course, 'announcements-' + course.number);
+  createChannelInCat(course, 'zoom-meeting-info-' + course.number);
+  if (course.video) {
+    const videoChannel = await createChannelInCat(course, 'how-to-make-a-video');
+    const messages = parseLines('data/videoMessages.txt');
+    messages.forEach(message => videoChannel.send(message));
+  }
+  createChannelInCat(course, 'introduce-yourself');
+  createChannelInCat(course, 'chat');
+  return course.category;
+}
+
+export async function createChannelInCat(course: CourseRole, name: string) {
+  let newChannel = await createChannel(course.category.guild, name)
+    .then(channel => {
+      return channel;
+    })
+    .catch(channel => {
+      return undefined;
+    });
+  if (newChannel) {
+    newChannel = await newChannel.setParent(course.category);
+    await newChannel.lockPermissions();
+    return newChannel;
+  }
+  else return undefined;
 }
 
 /**
