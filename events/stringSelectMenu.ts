@@ -50,28 +50,31 @@ module.exports = {
       await interaction.reply({ content: 'Roles added: ' + addedRoles.join(', '), ephemeral: true });
     }
 
-    if (interaction.customId === 'remove-courses') {
+    if (interaction.customId === 'course-remove') {
       const rolesList = getListFromFile('data/courses.json') as CourseRole[];
       const rolesSelected = interaction.values;
       const removedRoles: string[] = [];
-      // Assign roles
+      // Assign roles in a loop, in case we want to make this a multi-select later.
       for (const selectedElement of rolesSelected) {
         for (const course of rolesList) {
           if (course.name != selectedElement) continue;
           const courseRole = course.role;
           const veteranRole = course.veteranRole;
           // Deletes roles if their members are empty
-          if (courseRole && courseRole.members.size === 0) interaction.guild.roles.delete(courseRole, 'Deleted as part of course deletion');
-          if (veteranRole && veteranRole.members.size === 0) interaction.guild.roles.delete(veteranRole, 'Deleted as part of course deletion');
+          const serverRole = await interaction.guild.roles.fetch(courseRole.id)
+          const serverVeteranRole = await interaction.guild.roles.fetch(veteranRole.id);
+          if (serverRole) serverRole.delete('Deleted as part of course deletion');
+          if (serverVeteranRole && serverVeteranRole.members.size === 0) serverVeteranRole.delete('Deleted as part of course deletion');
           rolesList.splice(rolesList.indexOf(course), 1);
           removedRoles.push(course.name);
           saveListToFile(rolesList, 'data/courses.json');
         }
       }
-      await interaction.reply({ content: 'Courses removed: ' + removedRoles.join(', '), ephemeral: true });
+      await interaction.update({ content: 'Course removed: ' + removedRoles.join(', '), components: [] });
     }
 
-    if (interaction.customId === 'remove-roles') {
+    if (interaction.customId === 'role-remove') {
+      // TODO add handling for deleting one part of a joint course, reject it and say the child needs to be deleted first
       const rolesList = getListFromFile('data/optRoles.json') as OptionalRole[];
       const rolesSelected = interaction.values;
       const removedRoles: string[] = [];
@@ -95,12 +98,35 @@ module.exports = {
     }
 
     if (interaction.customId === 'create-category') {
-      const RolesList = getListFromFile('data/courses.json') as CourseRole[];
+      const rolesList = getListFromFile('data/courses.json') as CourseRole[];
       const courseSelectedString = interaction.values[0];
-      const selectedCourse = RolesList.find((element: CourseRole) => element.name === courseSelectedString);
+      const selectedCourse = rolesList.indexOf(rolesList.find((element: CourseRole) => element.name === courseSelectedString));
       const guild = interaction.guild;
+      const jointChild = rolesList.indexOf(rolesList.find(element => element.jointClass === rolesList[selectedCourse].name));
+      let jointParent: CourseRole;
+      if (rolesList[selectedCourse].jointClass) jointParent = rolesList.find(element => element.name === rolesList[selectedCourse].jointClass);
+      if (rolesList[jointChild]) {
+        if (rolesList[jointChild].category) {
+          rolesList[selectedCourse].category = rolesList[jointChild].category;
+        }
+      }
+      if (jointParent) {
+        rolesList[selectedCourse].jointClass = jointParent.name;
+        if (jointParent.category) {
+          rolesList[selectedCourse].category = jointParent.category;
+        }
+      }
+      if (rolesList[selectedCourse].category) {
+        if (guild.channels.fetch(rolesList[selectedCourse].category.id)) {
+          await interaction.update({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
+          return;
+        }
+      }
       await interaction.deferUpdate()
-      await createAndPopulateCategory(selectedCourse, guild.channels);
+      const category = await createAndPopulateCategory(rolesList[selectedCourse], guild.channels);
+      rolesList[selectedCourse].category = category;
+      if (rolesList[jointChild]) rolesList[jointChild].category = category;
+      saveListToFile(rolesList, 'data/courses.json');
       await interaction.editReply({ content: 'Category created!', components: [] });
     }
   }

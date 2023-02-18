@@ -187,11 +187,14 @@ export async function createAndPopulateCategory(course: CourseRole, ChannelManag
   const categoryName = course.jointClass
     ? course.prefix + ' ' + course.number + ' / ' + course.jointClass + ' - ' + getSemester()
     : course.prefix + ' ' + course.number + ' - ' + getSemester();
+  const courseNumber: string = course.jointClass
+    ? course.number + '-and-' + course.jointClass.split('-')[1]
+    : course.number;
   course.category = await createCategory(categoryName, ChannelManager, course.role);
-  createChannelInCat(course, 'announcements-' + course.number);
-  createChannelInCat(course, 'zoom-meeting-info-' + course.number);
+  createChannelInCat(course, 'announcements-' + courseNumber, true);
+  createChannelInCat(course, 'zoom-meeting-info-' + courseNumber, true);
   if (course.video) {
-    const videoChannel = await createChannelInCat(course, 'how-to-make-a-video');
+    const videoChannel = await createChannelInCat(course, 'how-to-make-a-video', true);
     const messages = parseLines('data/videoMessages.txt');
     messages.forEach(message => videoChannel.send(message));
   }
@@ -200,8 +203,8 @@ export async function createAndPopulateCategory(course: CourseRole, ChannelManag
   return course.category;
 }
 
-export async function createChannelInCat(course: CourseRole, name: string) {
-  let newChannel = await createChannel(course.category.guild, name)
+export async function createChannelInCat(course: CourseRole, name: string, readOnly: boolean = false) {
+  let newChannel: TextChannel = await createChannel(course.category.guild, name)
     .then(channel => {
       return channel;
     })
@@ -211,6 +214,7 @@ export async function createChannelInCat(course: CourseRole, name: string) {
   if (newChannel) {
     newChannel = await newChannel.setParent(course.category);
     await newChannel.lockPermissions();
+    if (readOnly) await newChannel.permissionOverwrites.edit(course.role.id, { SendMessages: false });
     return newChannel;
   }
   else return undefined;
