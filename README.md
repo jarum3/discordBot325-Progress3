@@ -29,7 +29,7 @@ Run [deploy-commands.js](deploy-commands.js) after adding any new command files,
 # Description of progress
 
 ## To-do
-- [ ] Handle joint course adding with temporary dropdown
+- [x] Handle joint course adding with temporary dropdown
 - [ ] Create functionality to create, populate, and archive categories and attach those to role objects
 - [ ] Create semester tracking system, attaching semester value to category names
 - [ ] Create list of archived courses to keep track of, separate from removing a course
