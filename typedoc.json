@@ -1,14 +1,16 @@
 {
   "entryPoints": [
     "./app.ts",
-    "./commands",
+    "./commands/*",
     "./events",
     "./helpers",
     "./deploy-commands.ts"
   ],
   "entryPointStrategy": "expand",
-  "excludeExternals": true,
-  "excludeNotDocumented": true,
   "out": "doc/",
-  "pretty": true,
+  "plugin": [
+    "typedoc-theme-hierarchy"
+  ],
+  "theme": "hierarchy",
+  "excludeInternal": false,
 }
