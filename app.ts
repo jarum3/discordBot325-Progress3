@@ -1,5 +1,7 @@
 /**
  * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
+ * @internal
+ * @packageDocumentation
  */
 // Dependencies
 import * as path from 'node:path';

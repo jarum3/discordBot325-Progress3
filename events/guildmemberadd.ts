@@ -1,3 +1,7 @@
+/**
+ * 
+ * @packageDocumentation
+ */
 import { User, Events } from 'discord.js';
 module.exports = {
   name: Events.GuildMemberAdd,

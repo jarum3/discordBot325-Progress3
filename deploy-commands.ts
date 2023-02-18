@@ -1,15 +1,19 @@
+/**
+ * Script for deploying commands
+ * @internal
+ * @packageDocumentation
+ */
 import { REST, Routes } from 'discord.js';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import * as dotenv from 'dotenv';
 
+/**
+ * Deploys commands using the discord REST Api, and utilizing .env variables
+ * @remarks
+ * This function serves primarily as a standalone script
+ */
 function deployCommands(): void {
-  /**
-   * Deploys commands using the discord REST Api, and utilizing .env variables
-   * @remarks
-   * This function serves primarily as a standalone script
-   */
-
   dotenv.config();
   const commands = [];
   const commandsPath = path.join(__dirname, 'commands'); // Grabbing command directory

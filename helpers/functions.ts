@@ -42,6 +42,13 @@ export async function createChannel(guild: Guild, name: string): Promise<TextCha
     });
 }
 
+/**
+ * 
+ * @param {string} name The name for the category
+ * @param {import('discord.js').GuildChannelManager} ChannelManager A channel manager for a guild, can be obtained using interaction.guild.channels
+ * @param {import('discord.js').Role?} role A role to lock the channel to, unlocked by default 
+ * @returns 
+ */
 export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role = undefined,): Promise<CategoryChannel> {
   if (role) {
     return ChannelManager.create({
@@ -75,6 +82,12 @@ export async function createCategory(name: string, ChannelManager: GuildChannelM
   }
 }
 
+/**
+ * 
+ * @param {string} customId Custom ID to access menu selections
+ * @param {boolean} multi Whether the user should be able to select multiple values at once, or just one
+ * @returns {Promise<import('discord.js').ActionRowBuilder<import('discord.js').StringSelectMenuBuilder>>}
+ */
 export async function RoleSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
   const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
   if (rolesList.length === 0) {

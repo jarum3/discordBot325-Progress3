@@ -1,3 +1,7 @@
+/**
+ * 
+ * @packageDocumentation
+ */
 import { Events, Client } from 'discord.js';
 
 module.exports = {

@@ -1,3 +1,8 @@
+/**
+ * Event handler for the client joining a new guild
+ * 
+ * @packageDocumentation
+ */
 import { Events, Guild } from 'discord.js';
 
 module.exports = {

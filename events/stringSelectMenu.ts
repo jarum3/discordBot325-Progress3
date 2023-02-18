@@ -1,7 +1,12 @@
+/**
+ * 
+ * @packageDocumentation
+ */
 import { Events, BaseInteraction, GuildMemberRoleManager } from 'discord.js';
 import { OptionalRole, CourseRole } from '../helpers/role';
 import { createAndPopulateCategory, getListFromFile, saveListToFile } from '../helpers/functions';
 
+// TODO split into multiple files for each select menu handler for easier browsing
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction: BaseInteraction) {

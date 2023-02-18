@@ -1,4 +1,10 @@
-import { SlashCommandBuilder, ChannelType, SlashCommandStringOption, ChatInputCommandInteraction, TextChannel, CategoryChannel, GuildTextBasedChannel, BaseGuildTextChannel, SlashCommandChannelOption } from 'discord.js';
+/**
+ * Slash-command for creating channels
+ * @name Name of new channel
+ * @category Optional: Category to place new channel inside of 
+ * @packageDocumentation
+ */
+import { SlashCommandBuilder, ChannelType, SlashCommandStringOption, ChatInputCommandInteraction, TextChannel, CategoryChannel, SlashCommandChannelOption } from 'discord.js';
 import { createChannel } from '../../helpers/functions';
 // Creates a new channel in the category the command was executed in, then locks permissions
 module.exports = {
@@ -11,7 +17,7 @@ module.exports = {
         .setRequired(true))
     .addChannelOption((option: SlashCommandChannelOption) =>
       option.setName('category')
-        .setDescription('Category for the new chanenl to be placed into')
+        .setDescription('Category for the new channel to be placed into')
         .addChannelTypes(ChannelType.GuildCategory))
     .setDefaultMemberPermissions(0),
   async execute(interaction: ChatInputCommandInteraction) {
