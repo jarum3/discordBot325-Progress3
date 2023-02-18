@@ -1,3 +1,7 @@
+/**
+ *
+ * @packageDocumentation
+ */
 import { RoleSelectMenu } from '../helpers/functions';
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 // Adds a course to the list of courses, with a role and veteran role attached

@@ -1,3 +1,7 @@
+/**
+ *
+ * @packageDocumentation
+ */
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { RoleSelectMenu } from '../helpers/functions';
 module.exports = {

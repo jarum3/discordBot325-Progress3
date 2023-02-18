@@ -1,3 +1,7 @@
+/**
+ *
+ * @packageDocumentation
+ */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 // Pings, returns time pinged. A template for other commands.
 module.exports = {

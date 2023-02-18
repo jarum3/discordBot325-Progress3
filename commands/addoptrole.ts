@@ -1,3 +1,7 @@
+/**
+ *
+ * @packageDocumentation
+ */
 import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption, ColorResolvable } from 'discord.js';
 import { OptionalRole } from '../helpers/role';
 import { getListFromFile, saveListToFile, generateColor, createRole } from '../helpers/functions';

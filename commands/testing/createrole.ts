@@ -1,4 +1,8 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, Role, ColorResolvable } from 'discord.js';
+/**
+ * 
+ * @packageDocumentation
+ */
+import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, ColorResolvable } from 'discord.js';
 import { createRole, generateColor, isColor } from '../../helpers/functions';
 // Creates a new role with a given name and color
 module.exports = {

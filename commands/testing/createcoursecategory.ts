@@ -1,3 +1,7 @@
+/**
+ * 
+ * @packageDocumentation
+ */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { CourseSelectMenu } from '../../helpers/functions';
 module.exports = {

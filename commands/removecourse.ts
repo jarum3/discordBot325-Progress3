@@ -1,5 +1,9 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, SelectMenuComponentOptionData } from 'discord.js';
-import { CourseSelectMenu, RoleSelectMenu } from '../helpers/functions';
+/**
+ *
+ * @packageDocumentation
+ */
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { CourseSelectMenu } from '../helpers/functions';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()

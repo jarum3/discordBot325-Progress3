@@ -1,6 +1,12 @@
-import { SlashCommandStringOption, SlashCommandBuilder, ChannelType, PermissionsBitField, OverwriteType, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from "discord.js";
+/**
+ * Slash command for creating categories
+ * @name Name of category
+ * @role Role to permissions-lock viewing category to
+ * @packageDocumentation
+ */
+import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from "discord.js";
 import { createCategory } from "../../helpers/functions";
-// Creates a new category, at the bottom, locked to the given role.
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('createcategory')
@@ -14,7 +20,6 @@ module.exports = {
         .setDescription('Role to restrict category to')
         .setRequired(false))
     .setDefaultMemberPermissions(0),
-
   async execute(interaction: ChatInputCommandInteraction) {
     const name = interaction.options.getString('name');
     const role = interaction.options.getRole('role') as Role;

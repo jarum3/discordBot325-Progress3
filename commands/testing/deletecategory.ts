@@ -1,3 +1,7 @@
+/**
+ *
+ * @packageDocumentation
+ */
 import { CategoryChannel } from 'discord.js';
 import { SlashCommandBuilder, ChatInputCommandInteraction, ChannelType } from 'discord.js';
 module.exports = {

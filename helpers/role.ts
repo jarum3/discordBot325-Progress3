@@ -1,5 +1,4 @@
-import { CategoryChannel, Guild, Role, TextChannel } from "discord.js";
-import { createChannel, archiveCategory, createCategory, getSemester, parseLines } from './functions';
+import { CategoryChannel, Role } from "discord.js";
 /**
  * A class to store course role data, including a veteran role and data on course attributes
  */
@@ -34,12 +33,6 @@ export class CourseRole {
     if (video) this.video = video;
     else this.video = false;
     this.jointClass = jointClass;
-  }
-  /**
-   * Archives the category, including role permission changeoff
-   */
-  archiveCategory() {
-    archiveCategory(this.category, this.role, this.veteranRole);
   }
 }
 
