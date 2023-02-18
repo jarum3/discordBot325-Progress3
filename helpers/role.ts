@@ -16,7 +16,7 @@ export class CourseRole {
   veteranRole: Role;
   /** Whether or not the course requires video information */
   video: Boolean;
-  /** A course to share a category with this course, one-directional (Child class has joint class, parent class does not.) */
+  /** A course to share a category with this course, bi-directional (both classes point to each other) */
   jointClass: string | undefined;
   /** Keeps track of the category associated with this class */
   category: CategoryChannel;
