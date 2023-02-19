@@ -11,7 +11,7 @@ module.exports = {
     const rolesSelected = interaction.values;
     // Assign roles
     for (const role of rolesList) {
-      const optRole = role.role;
+      const optRole = await interaction.guild.roles.fetch(role.role.id);
       if (optRole) {
         const roles = interaction.member.roles as GuildMemberRoleManager;
         await roles.remove(optRole);
