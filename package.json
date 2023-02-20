@@ -4,9 +4,10 @@
   "description": "A discord bot designed to assist in role management for a classroom setting.",
   "main": "build/app.js",
   "scripts": {
-    "start": "ts-node deploy-commands.ts && ts-node app.ts",
-    "start-prod": "tsc && shx cp .env ./build/.env && node ./build/deploy-commands.js && node ./build/app.js",
-    "docs": "npx typedoc --options typedoc.json"
+    "start": "npx ts-node deploy-commands.ts && npx ts-node app.ts",
+    "start-prod": "npx tsc && npx shx cp .env ./build/.env && node ./build/deploy-commands.js && node ./build/app.js",
+    "docs": "npx typedoc --options typedoc.json",
+    "lint": "npx eslint . --ext .ts"
   },
   "author": "",
   "license": "MIT",

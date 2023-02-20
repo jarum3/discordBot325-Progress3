@@ -1,14 +1,14 @@
 /**
  * Slash command for creating categories
  * # Parameters
- * ## Name 
+ * ## Name
  * * Name of category
  * ## Role
  * * Role to permissions-lock viewing category to
  * @packageDocumentation
  */
-import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from "discord.js";
-import { createCategory } from "../../helpers/functions";
+import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from 'discord.js';
+import { createCategory } from '../../helpers/functions';
 
 module.exports = {
   data: new SlashCommandBuilder()

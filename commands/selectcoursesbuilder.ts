@@ -2,7 +2,7 @@
  * Slash-command to generate a select menu towards users, to give themselves roles related to courses
  * they're enrolled in.
  * # Menu
- * * Creates a stringSelectMenu with CustomId 'reaction-courses', 
+ * * Creates a stringSelectMenu with CustomId 'reaction-courses',
  * with implementation defined in the {@link events/selectmanagers/reactioncourses | Course reaction handler}
  * @packageDocumentation
  */
@@ -17,6 +17,6 @@ module.exports = {
   async execute(interaction: ChatInputCommandInteraction) {
     const row = await CourseSelectMenu('reaction-courses', true);
     if (row) await interaction.reply({ content: 'Please select which courses you are enrolled in for this semester:', components: [row] });
-    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true })
+    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true });
   },
 };

@@ -20,7 +20,7 @@ module.exports = {
     .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
     const category: CategoryChannel = interaction.options.getChannel('category') as CategoryChannel;
-    category.children.cache.forEach(channel => { channel.delete('Deleted as part of category deletion') });
+    category.children.cache.forEach(channel => { channel.delete('Deleted as part of category deletion'); });
     category.delete();
     interaction.reply({ content: 'Deleted!', ephemeral: true });
   },

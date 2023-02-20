@@ -3,7 +3,7 @@
  * Used when accidentally creating courses, or when creating the same course with new data
  * (Other circumstances should be handled as part of starting the semester)
  * # Menu
- * * Creates a StringSelectMenu  with courses listed that handles course removal, 
+ * * Creates a StringSelectMenu  with courses listed that handles course removal,
  * with implementation described in the {@link events/selectmanagers/courseremove | Course remove event}
  * @packageDocumentation
  */
@@ -19,6 +19,6 @@ module.exports = {
   async execute(interaction: ChatInputCommandInteraction) {
     const row = await CourseSelectMenu('course-remove', false);
     if (row) await interaction.reply({ content: 'Please select which course you\'d like to remove:', components: [row], ephemeral: true });
-    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true })
+    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true });
   },
 };

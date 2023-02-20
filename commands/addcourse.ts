@@ -1,22 +1,22 @@
 /**
- * Slash-command to add a course to the list. 
+ * Slash-command to add a course to the list.
  * Attaches active or veteran roles matching its name or creates new ones if none is found.
  * # Parameters
- * ## Prefix 
+ * ## Prefix
  * * Course prefix (Ex. CIS, CSC, LIN)
- * ## Number 
+ * ## Number
  * * Course number (Ex. 101, 200, 325)
- * ## Video 
+ * ## Video
  * * Optional boolean for if the course requires a tutorial on video creation
- * ## jointclass 
+ * ## jointclass
  * * Optional boolean for if another course needs to share a category with the generated course
- * # Menu 
+ * # Menu
  * * Jointclass creates a dropdown to select a course string, with CustomId 'joint-course', defined in the {@link events/selectmanagers/jointcourse}
  * @packageDocumentation
  */
-import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";
-import { generateColor, getListFromFile, adjustColor, saveListToFile, createRole, CourseSelectMenu } from "../helpers/functions";
-import { CourseRole } from "../helpers/role";
+import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from 'discord.js';
+import { generateColor, getListFromFile, adjustColor, saveListToFile, createRole, CourseSelectMenu } from '../helpers/functions';
+import { CourseRole } from '../helpers/role';
 // Adds a course to the list of courses, with a role and veteran role attached
 module.exports = {
   data: new SlashCommandBuilder()
@@ -85,7 +85,10 @@ module.exports = {
         const row = await CourseSelectMenu('joint-course', false);
         if (row) await interaction.reply({ content: 'Please select a course to share a category with', components: [row], ephemeral: true });
         else {
-          await interaction.reply({ content: 'There are no courses defined currently, please define a course before adding a joint course under it.', ephemeral: true })
+          await interaction.reply({
+            content: 'There are no courses defined currently, please define a course before adding a joint course under it.',
+            ephemeral: true,
+          });
           return;
         }
         while ((await interaction.fetchReply()).components.length > 0) {
@@ -104,7 +107,7 @@ module.exports = {
         const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
         if (!newRolesList.includes(newCourse)) {
           newRolesList.push(newCourse);
-          const newJointClass = newRolesList.find(element => element.name === newCourse.jointClass)
+          const newJointClass = newRolesList.find(element => element.name === newCourse.jointClass);
           if (newJointClass) newRolesList[newRolesList.indexOf(newJointClass)].jointClass = newCourse.name;
           saveListToFile(newRolesList, 'data/courses.json');
         }

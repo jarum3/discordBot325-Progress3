@@ -29,7 +29,7 @@ function deployCommands(): void {
       console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
     }
   }
-  let testing: boolean = false;
+  let testing = false;
   if (process.env.testing) testing = process.env.testing.toLowerCase() === 'true';
   if (testing) {
     const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing testing directory

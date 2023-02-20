@@ -1,6 +1,6 @@
 /**
  * Handles a stringSelectMenu with CustomId 'course-remove',
- * removing an entered course from the list of roles, 
+ * removing an entered course from the list of roles,
  * deleting its associated active server role,
  * and deleting its associated veteran role if no members exist with it.
  * # Command
@@ -28,7 +28,7 @@ module.exports = {
         const courseRole = course.role;
         const veteranRole = course.veteranRole;
         // Deletes roles if their members are empty
-        const serverRole = await interaction.guild.roles.fetch(courseRole.id)
+        const serverRole = await interaction.guild.roles.fetch(courseRole.id);
         const serverVeteranRole = await interaction.guild.roles.fetch(veteranRole.id);
         if (serverRole) serverRole.delete('Deleted as part of course deletion');
         if (serverVeteranRole && serverVeteranRole.members.size === 0) serverVeteranRole.delete('Deleted as part of course deletion');
@@ -38,5 +38,5 @@ module.exports = {
       }
     }
     await interaction.update({ content: 'Course removed: ' + removedRoles.join(', '), components: [] });
-  }
-}
+  },
+};

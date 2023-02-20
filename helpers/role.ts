@@ -1,4 +1,4 @@
-import { CategoryChannel, Role } from "discord.js";
+import { CategoryChannel, Role } from 'discord.js';
 /**
  * A class to store course role data, including a veteran role and data on course attributes
  */
@@ -14,7 +14,7 @@ export class CourseRole {
   /** Role for students that have passed through a class, should be able to access archives */
   veteranRole: Role;
   /** Whether or not the course requires video information */
-  video: Boolean;
+  video: boolean;
   /** A course to share a category with this course, bi-directional (both classes point to each other) */
   jointClass: string | undefined;
   /** Keeps track of the category associated with this class */
@@ -23,7 +23,7 @@ export class CourseRole {
    * @constructor
    * @param {{ prefix: string, number: string, role: Role, veteranRole: Role, video?: boolean, jointClass?: string}} options Set of options for course data
    */
-  constructor({ prefix, number, role, veteranRole, video = false, jointClass = undefined, name = undefined }: { prefix: string; number: string; role: Role; veteranRole: Role; video?: Boolean; jointClass?: string; name?: string; }) {
+  constructor({ prefix, number, role, veteranRole, video = false, jointClass = undefined, name = undefined }: { prefix: string; number: string; role: Role; veteranRole: Role; video?: boolean; jointClass?: string; name?: string; }) {
     this.prefix = prefix;
     this.number = number;
     this.name = prefix + '-' + number;

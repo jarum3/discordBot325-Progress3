@@ -33,5 +33,5 @@ module.exports = {
       }
     }
     await interaction.reply({ content: 'Roles added: ' + addedRoles.join(', '), ephemeral: true });
-  }
-}
+  },
+};

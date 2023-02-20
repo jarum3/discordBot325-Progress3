@@ -1,4 +1,4 @@
-import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, TextChannel, PermissionsBitField, OverwriteType, ActionRowBuilder, SelectMenuComponentOptionData, StringSelectMenuBuilder, GuildChannelManager, NewsChannel } from 'discord.js';
+import { ColorResolvable, Colors, Role, CategoryChannel, Guild, ChannelType, TextChannel, PermissionsBitField, OverwriteType, ActionRowBuilder, SelectMenuComponentOptionData, StringSelectMenuBuilder, GuildChannelManager } from 'discord.js';
 import { CourseRole, OptionalRole } from './role';
 import * as fs from 'node:fs';
 
@@ -13,7 +13,7 @@ export function getSemester(): string {
 
 /**
  * Writes a string to a file to be read later as semester data
- * @param string The value of the current semester
+ * @param {string} string - The value of the current semester
  */
 export function writeSemester(string: string): void {
   fs.writeFileSync('data/currentsemester.txt', string);
@@ -21,7 +21,7 @@ export function writeSemester(string: string): void {
 
 /**
  * Simply parses a file into lines as strings
- * @param file path to file to read lines from
+ * @param {string} file - path to file to read lines from
  * @returns {string[]} array of strings, one for each line in the file
  */
 export function parseLines(file: string): string[] {
@@ -43,13 +43,13 @@ export async function createChannel(guild: Guild, name: string): Promise<TextCha
 }
 
 /**
- * 
- * @param {string} name The name for the category
- * @param {import('discord.js').GuildChannelManager} ChannelManager A channel manager for a guild, can be obtained using interaction.guild.channels
- * @param {import('discord.js').Role?} role A role to lock the channel to, unlocked by default 
- * @returns 
+ *
+ * @param {string} name - The name for the category
+ * @param {import('discord.js').GuildChannelManager} ChannelManager - A channel manager for a guild, can be obtained using interaction.guild.channels
+ * @param {import('discord.js').Role?} role - A role to lock the channel to, unlocked by default
+ * @returns {Promise<import('discord.js').CategoryChannel>} - The newly-created category channel
  */
-export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role | undefined = undefined,): Promise<CategoryChannel | undefined> {
+export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role | undefined = undefined): Promise<CategoryChannel | undefined> {
   if (role) {
     return ChannelManager.create({
       name: name,
@@ -76,14 +76,14 @@ export async function createCategory(name: string, ChannelManager: GuildChannelM
       .then(category => {
         return category;
       })
-      .catch(category => {
+      .catch(() => {
         return undefined;
-      })
+      });
   }
 }
 
 /**
- * 
+ * Creates a select menu containing the current list of roles
  * @param {string} customId Custom ID to access menu selections
  * @param {boolean} multi Whether the user should be able to select multiple values at once, or just one
  * @returns {Promise<import('discord.js').ActionRowBuilder<import('discord.js').StringSelectMenuBuilder>>}
@@ -113,6 +113,12 @@ export async function RoleSelectMenu(customId: string, multi: boolean): Promise<
   return row;
 }
 
+/**
+ * Creates a select menu containing the current list of courses
+ * @param {string} customId - ID to identify event-handler assigned to this menu
+ * @param {boolean} multi - Whether to allow for multiple selections, if false, only one will be available at a time.
+ * @returns {Promise<import('discord.js').ActionRowBuilder<import('discord.js').StringSelectMenuBuilder>>} The row object to use as a components: [row] section of an interaction reply
+ */
 export async function CourseSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder> | undefined> {
   const rolesList = getListFromFile('data/courses.json') as CourseRole[];
   if (rolesList.length === 0) {
@@ -130,10 +136,19 @@ export async function CourseSelectMenu(customId: string, multi: boolean): Promis
   return row;
 }
 
+/*
 export async function archiveCategory(category: CategoryChannel, originalRole: Role, newRole: Role): Promise<void> {
 
 }
+*/
 
+/**
+ *
+ * @param {import('discord.js').Guild} guild - Guild to create the role in
+ * @param {string} name - Name of new role.
+ * @param {import('discord.js').ColorResolvable} color - Color to set role to
+ * @returns {Promise<import('discord.js').Role | undefined>} The created role, if it was successfully created.
+ */
 export async function createRole(guild: Guild, name: string, color: ColorResolvable): Promise<Role | undefined> {
   return guild.roles.create({
     name: name,
@@ -171,7 +186,7 @@ export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
 /**
  * Determines if given color is valid hex or color descriptor
  * @param {any} strColor - Possible color string
- * @returns {boolean} - True if color is valid hex or color descriptor
+ * @returns {boolean} True if color is valid hex or color descriptor
  */
 export function isColor(strColor: any): boolean {
   const RegExp = /(^#?[0-9A-F]{6}$)|(^#?[0-9A-F]{3}$)/i; // Regex to check if the input is a valid hex code.
@@ -196,14 +211,20 @@ export function generateColor(): ColorResolvable {
   return Math.floor(Math.random() * 16777215).toString(16) as ColorResolvable;
 }
 
-export async function createAndPopulateCategory(course: CourseRole, ChannelManager: GuildChannelManager) {
+/**
+ *
+ * @param {import('../helpers/role'.CourseRole)} course - Course with data to structure channels based on
+ * @param {import('discord.js').ChannelManager} channelManager - The guild's channel manager, to create new channels
+ * @returns {Promise<import('discord.js').CategoryChannel | undefined>} The newly-created channel, if it was successful
+ */
+export async function createAndPopulateCategory(course: CourseRole, channelManager: GuildChannelManager): Promise<CategoryChannel | undefined> {
   const categoryName = course.jointClass
     ? course.prefix + ' ' + course.number + ' / ' + course.jointClass + ' - ' + getSemester()
     : course.prefix + ' ' + course.number + ' - ' + getSemester();
   const courseNumber: string = course.jointClass
     ? course.number + '-and-' + course.jointClass.split('-')[1]
     : course.number;
-  course.category = await createCategory(categoryName, ChannelManager, course.role);
+  course.category = await createCategory(categoryName, channelManager, course.role);
   createChannelInCat(course, 'announcements-' + courseNumber, true);
   createChannelInCat(course, 'zoom-meeting-info-' + courseNumber, true);
   if (course.video) {
@@ -218,7 +239,14 @@ export async function createAndPopulateCategory(course: CourseRole, ChannelManag
   return course.category;
 }
 
-export async function createChannelInCat(course: CourseRole, name: string, readOnly: boolean = false) {
+/**
+ *
+ * @param {import('../helpers/role').CourseRole} course - Course to grab permission role and parent category from
+ * @param {string} name - Name of new channel
+ * @param {boolean} readOnly - Whether or not the channel should only allow the instructor to send messages
+ * @returns {Promise<import('discord.js').TextChannel | undefined>} The new channel, if it was successful
+ */
+export async function createChannelInCat(course: CourseRole, name: string, readOnly = false): Promise<TextChannel | undefined> {
   if (course.category) {
     let newChannel: TextChannel | undefined = await createChannel(course.category.guild, name)
       .then(channel => {

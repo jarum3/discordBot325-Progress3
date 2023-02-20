@@ -1,6 +1,6 @@
 /**
  * Slash-command for creating a category based on courses
- * # Menu 
+ * # Menu
  * * StringSelectMenu populated with courses with CustomId 'create-category' defined in {@link events/selectmanagers/createcategory | Create category event}
  * @packageDocumentation
  */
@@ -15,6 +15,6 @@ module.exports = {
   async execute(interaction: ChatInputCommandInteraction) {
     const row = await CourseSelectMenu('create-category', false);
     if (row) await interaction.reply({ content: 'Please select which course you\'d like to create a category for:', components: [row], ephemeral: true });
-    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true })
+    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true });
   },
 };

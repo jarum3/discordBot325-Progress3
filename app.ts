@@ -10,8 +10,11 @@ import * as dotenv from 'dotenv';
 import * as events from 'node:events';
 dotenv.config();
 declare module 'discord.js' {
+
+  // We're intentionally shadowing client to allow for use of the commands collection
+  // eslint-disable-next-line no-shadow
   export interface Client {
-    commands: Collection<unknown, any>
+    commands: Collection<unknown, any>;
   }
 }
 const botIntents = new IntentsBitField();
@@ -44,7 +47,7 @@ for (const file of commandFiles) {
 
 
 // Processing env string as boolean
-let testing: boolean = false;
+let testing = false;
 if (process.env.testing) testing = process.env.testing.toLowerCase() === 'true';
 if (testing) {
   const testingPath = path.join(__dirname, 'commands/testing'); // Grabbing tests directory

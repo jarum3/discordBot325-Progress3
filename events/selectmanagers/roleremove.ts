@@ -31,5 +31,5 @@ module.exports = {
       }
     }
     await interaction.reply({ content: 'Roles removed: ' + removedRoles.join(', '), ephemeral: true });
-  }
-}
+  },
+};
