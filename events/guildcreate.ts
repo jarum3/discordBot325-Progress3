@@ -1,5 +1,5 @@
 /**
- * Event handler for the client joining a new guild
+ * Event handler for the client joining a new guild, simply console logs currently.
  * 
  * @packageDocumentation
  */

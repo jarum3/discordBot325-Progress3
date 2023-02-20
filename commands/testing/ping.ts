@@ -1,5 +1,5 @@
 /**
- *
+ * Simple ping command that lists time to server, for checking that bot is running
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';

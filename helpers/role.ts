@@ -18,10 +18,10 @@ export class CourseRole {
   /** A course to share a category with this course, bi-directional (both classes point to each other) */
   jointClass: string | undefined;
   /** Keeps track of the category associated with this class */
-  category: CategoryChannel;
+  category: CategoryChannel | undefined;
   /**
    * @constructor
-   * @param {{ prefix: string, number: string, role: Role, veteranRole: Role, video: boolean, jointClass: string}} options Set of options for course data
+   * @param {{ prefix: string, number: string, role: Role, veteranRole: Role, video?: boolean, jointClass?: string}} options Set of options for course data
    */
   constructor({ prefix, number, role, veteranRole, video = false, jointClass = undefined, name = undefined }: { prefix: string; number: string; role: Role; veteranRole: Role; video?: Boolean; jointClass?: string; name?: string; }) {
     this.prefix = prefix;

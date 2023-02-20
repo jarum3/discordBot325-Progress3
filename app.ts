@@ -1,7 +1,5 @@
-import { Events } from 'discord.js';
 /**
  * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
- * @internal
  * @packageDocumentation
  */
 // Dependencies

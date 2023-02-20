@@ -1,5 +1,9 @@
 /**
- *
+ * Slash-command to generate a select menu towards users, to give themselves roles related to courses
+ * they're enrolled in.
+ * # Menu
+ * * Creates a stringSelectMenu with CustomId 'reaction-courses', 
+ * with implementation defined in the {@link events/selectmanagers/reactioncourses | Course reaction handler}
  * @packageDocumentation
  */
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';

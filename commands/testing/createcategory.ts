@@ -1,7 +1,10 @@
 /**
  * Slash command for creating categories
- * @name Name of category
- * @role Role to permissions-lock viewing category to
+ * # Parameters
+ * ## Name 
+ * * Name of category
+ * ## Role
+ * * Role to permissions-lock viewing category to
  * @packageDocumentation
  */
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandRoleOption, ChatInputCommandInteraction, Role } from "discord.js";

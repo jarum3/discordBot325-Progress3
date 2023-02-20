@@ -1,5 +1,8 @@
 /**
- *
+ * Slash-command to generate a select menu towards users, to give themselves optional roles
+ * # Menu
+ * * Generates a StringSelectMenu with CustomId 'reaction-roles' that applies roles to interacted members, 
+ * with implementation defined in the {@link events/selectmanagers/reactionroles | Reaction roles event}
  * @packageDocumentation
  */
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';

@@ -1,5 +1,8 @@
 /**
- *
+ * Slash-command to delete a category in its entirety, with each channel that lists the category as a parent
+ * # Parameters
+ * ## Category
+ * * CategoryChannel to delete, filtered down to category channels using .addChannelTypes
  * @packageDocumentation
  */
 import { CategoryChannel } from 'discord.js';

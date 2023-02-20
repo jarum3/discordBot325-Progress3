@@ -1,5 +1,11 @@
 /**
- *
+ * Slash-command to add an optional role to the list.
+ * Creates a new role always, with no members
+ * # Parameters
+ * ## Name
+ * * Name for the role to be created, displayed to students
+ * ## Description
+ * * Description of the role, displayed to students
  * @packageDocumentation
  */
 import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption, ColorResolvable } from 'discord.js';
@@ -30,7 +36,7 @@ module.exports = {
     for (const role of rolesList) {
       if (role.name === roleName) {
         // If our role is already in the list, just return an error message
-        interaction.reply({ content: 'A course with that name already exists.', ephemeral: true });
+        interaction.reply({ content: 'A role with that name already exists.', ephemeral: true });
         return;
       }
     }

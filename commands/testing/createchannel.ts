@@ -1,7 +1,10 @@
 /**
  * Slash-command for creating channels
- * @name Name of new channel
- * @category Optional: Category to place new channel inside of 
+ * # Parameters
+ * ## Name 
+ * * Name of new channel
+ * ## Category
+ * * Optional, category to place new channel inside of 
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChannelType, SlashCommandStringOption, ChatInputCommandInteraction, TextChannel, CategoryChannel, SlashCommandChannelOption } from 'discord.js';

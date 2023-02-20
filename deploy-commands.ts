@@ -1,6 +1,6 @@
 /**
- * Script for deploying commands
- * @internal
+ * Deploys commands using the discord REST Api, and utilizing .env variables
+ * @remarks This function serves primarily as a standalone script, not called by other modules.
  * @packageDocumentation
  */
 import { REST, Routes } from 'discord.js';
@@ -9,9 +9,7 @@ import * as fs from 'node:fs';
 import * as dotenv from 'dotenv';
 
 /**
- * Deploys commands using the discord REST Api, and utilizing .env variables
- * @remarks
- * This function serves primarily as a standalone script
+
  */
 function deployCommands(): void {
   dotenv.config();

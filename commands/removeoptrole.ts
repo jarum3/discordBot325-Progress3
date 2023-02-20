@@ -1,5 +1,9 @@
 /**
- *
+ * Slash-command to remove an optional role from the list
+ * Currently, always deletes the role associated with it from the server.
+ * # Menu
+ * * Creates a stringSelectMenu with CustomId 'role-remove', 
+ * with implementation defined in the {@link events/selectmanagers/roleremove | Role remove handler}
  * @packageDocumentation
  */
 import { RoleSelectMenu } from '../helpers/functions';

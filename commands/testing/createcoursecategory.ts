@@ -1,5 +1,7 @@
 /**
- * 
+ * Slash-command for creating a category based on courses
+ * # Menu 
+ * * StringSelectMenu populated with courses with CustomId 'create-category' defined in {@link events/selectmanagers/createcategory | Create category event}
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';

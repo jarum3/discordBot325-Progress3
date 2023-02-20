@@ -1,5 +1,6 @@
 /**
- * 
+ * Event handler for any form of InteractionCreate, handles both select menu routing and command input routing
+ * to distinct files.
  * @packageDocumentation
  */
 import { Events, Collection, BaseInteraction } from 'discord.js';

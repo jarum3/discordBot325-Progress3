@@ -1,5 +1,17 @@
 /**
- *
+ * Slash-command to add a course to the list. 
+ * Attaches active or veteran roles matching its name or creates new ones if none is found.
+ * # Parameters
+ * ## Prefix 
+ * * Course prefix (Ex. CIS, CSC, LIN)
+ * ## Number 
+ * * Course number (Ex. 101, 200, 325)
+ * ## Video 
+ * * Optional boolean for if the course requires a tutorial on video creation
+ * ## jointclass 
+ * * Optional boolean for if another course needs to share a category with the generated course
+ * # Menu 
+ * * Jointclass creates a dropdown to select a course string, with CustomId 'joint-course', defined in the {@link events/selectmanagers/jointcourse}
  * @packageDocumentation
  */
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from "discord.js";

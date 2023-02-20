@@ -1,5 +1,5 @@
 /**
- * 
+ * Event handler for client ready, triggers when bot logs in.
  * @packageDocumentation
  */
 import { Events, Client } from 'discord.js';

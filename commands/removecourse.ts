@@ -1,5 +1,10 @@
 /**
- *
+ * Slash-command to remove a course from the list, and delete its associated active role, and its veteran role if no users are found
+ * Used when accidentally creating courses, or when creating the same course with new data
+ * (Other circumstances should be handled as part of starting the semester)
+ * # Menu
+ * * Creates a StringSelectMenu  with courses listed that handles course removal, 
+ * with implementation described in the {@link events/selectmanagers/courseremove | Course remove event}
  * @packageDocumentation
  */
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';

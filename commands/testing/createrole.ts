@@ -1,5 +1,10 @@
 /**
- * 
+ * Slash-command that creates a new role in the guild its executed in, with given name and color
+ * # Parameters
+ * ## Name
+ * * Name for new role
+ * ## Color
+ * * ColorResolvable hex code applied to new role (Ex. #123abc,  #ffffff, #abc)
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandStringOption, ColorResolvable } from 'discord.js';

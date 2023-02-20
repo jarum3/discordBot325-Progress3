@@ -26,6 +26,9 @@ TESTING="[TRUE or FALSE]"
 Since Discord puts a rate limit to the number of times you can submit commands in a given day, that's handled in a separate file. 
 Run [deploy-commands.js](deploy-commands.js) after adding any new command files, or on a new bot.
 
+## Documentation
+This source code is documented using several features specific to [Typedoc](https://typedoc.org/). This documentation can be generated using npm run docs, and can be hosted anywhere. Given the nature of many event handler and command handler modules, many of these are documented as the entire source file, rather than an individual function.
+
 # Description of progress
 
 ## To-do
