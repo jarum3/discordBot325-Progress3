@@ -1,5 +1,5 @@
 import { Events, BaseInteraction, GuildMemberRoleManager } from 'discord.js';
-import { getListFromFile } from '../helpers/functions';
+import { getListFromFile } from '../../helpers/functions';
 
 module.exports = {
   name: Events.InteractionCreate,

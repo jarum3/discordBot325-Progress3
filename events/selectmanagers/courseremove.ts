@@ -1,6 +1,6 @@
 import { Events, BaseInteraction } from 'discord.js';
-import { getListFromFile, saveListToFile } from '../helpers/functions';
-import { CourseRole } from '../helpers/role';
+import { getListFromFile, saveListToFile } from '../../helpers/functions';
+import { CourseRole } from '../../helpers/role';
 
 module.exports = {
   name: Events.InteractionCreate,

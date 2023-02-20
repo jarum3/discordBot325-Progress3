@@ -1,3 +1,4 @@
+import { Events } from 'discord.js';
 /**
  * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
  * @internal
@@ -8,6 +9,7 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { Client, Collection, IntentsBitField } from 'discord.js';
 import * as dotenv from 'dotenv';
+import * as events from 'node:events';
 dotenv.config();
 declare module 'discord.js' {
   export interface Client {
@@ -65,7 +67,10 @@ if (testing) {
 
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.endsWith(currentFileExtension));
-
+/**
+ * Maximum for event listeners is 25, if more listeners are needed, please edit this line when those are added.
+ */
+events.setMaxListeners(25);
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
   const event = require(filePath);
@@ -77,5 +82,5 @@ for (const file of eventFiles) {
   }
 }
 
-// Last line
+// Last line, if code runs after this, the bot won't know about it.
 client.login(process.env.CLIENT_TOKEN);
