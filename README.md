@@ -33,6 +33,7 @@ This source code is documented using several features specific to [Typedoc](http
 
 ## To-do
 - [x] Handle joint course adding with temporary dropdown
+- [ ] Currently, many errors are simply guarded against with return statements, but these cases should display a message to the user. These type-guards are generally at the top of files, checking that the command was executed within a guild, and valid data was provided.
 - [ ] Create functionality to create, populate, and archive categories and attach those to role objects
 - [ ] Create semester tracking system, attaching semester value to category names
 - [ ] Create list of archived courses to keep track of, separate from removing a course
