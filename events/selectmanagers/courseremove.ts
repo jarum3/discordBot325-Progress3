@@ -17,6 +17,7 @@ module.exports = {
     // TODO add handling for joint courses
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'course-remove')) return;
+    if (!(interaction.guild)) return;
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const rolesSelected = interaction.values;
     const removedRoles: string[] = [];

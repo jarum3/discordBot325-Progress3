@@ -13,6 +13,7 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-courses')) return;
+    if (!interaction.guild || !interaction.member) return;
     const addedCourses = [];
     const rolesList = getListFromFile('data/courses.json');
     const rolesSelected = interaction.values;

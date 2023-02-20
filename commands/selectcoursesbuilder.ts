@@ -12,7 +12,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('selectcoursesbuilder')
     .setDescription('Creates a dropdown menu in this channel for students to select their roles')
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
     const row = await CourseSelectMenu('reaction-courses', true);
     if (row) await interaction.reply({ content: 'Please select which courses you are enrolled in for this semester:', components: [row] });

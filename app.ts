@@ -80,5 +80,6 @@ for (const file of eventFiles) {
   }
 }
 
-// Last line, if code runs after this, the bot won't know about it.
+// Last line, if code runs after this, the bot won't know about it. Errors if client_token is invalid,
+// but that's expected.
 client.login(process.env.CLIENT_TOKEN);

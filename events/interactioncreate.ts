@@ -16,7 +16,7 @@ declare module 'discord.js' {
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction: BaseInteraction) {
-    if (interaction.isAnySelectMenu) {
+    if (interaction.isAnySelectMenu()) {
       const selectPath = path.join(__dirname, 'selectmanagers');
       const currentFileExtension = '.' + __filename.split('.').slice(-1);
       const eventFiles = fs.readdirSync(selectPath).filter((file: string) => file.endsWith(currentFileExtension));

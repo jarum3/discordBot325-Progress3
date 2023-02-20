@@ -22,10 +22,13 @@ module.exports = {
       option.setName('color')
         .setDescription('Hexcode of the desired color')
         .setRequired(false))
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
 
   async execute(interaction: ChatInputCommandInteraction) {
+    if (!interaction.guild) return;
     const name = interaction.options.getString('name');
+    if (!name) return;
     const color = interaction.options.getString('color');
     // Create a new role
     if (color) {

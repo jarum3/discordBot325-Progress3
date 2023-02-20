@@ -38,8 +38,13 @@ module.exports = {
       option.setName('jointclass')
         .setDescription('Whether to generate a dropdown to add a joint course, only one course needs to do this.')
         .setRequired(false))
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
+    if (!interaction.guild) {
+      await interaction.reply('This command is only valid in guilds.');
+      return;
+    }
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
     const video = interaction.options.getBoolean('video');
@@ -75,45 +80,49 @@ module.exports = {
       const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
       veteranRole = await createRole(interaction.guild, roleName + ' Veteran', veteranColor);
     }
-    if (jointClass) {
-      const row = await CourseSelectMenu('joint-course', false);
-      if (row) await interaction.reply({ content: 'Please select a course to share a category with', components: [row], ephemeral: true });
+    if (prefix && number && role && veteranRole && video) {
+      if (jointClass) {
+        const row = await CourseSelectMenu('joint-course', false);
+        if (row) await interaction.reply({ content: 'Please select a course to share a category with', components: [row], ephemeral: true });
+        else {
+          await interaction.reply({ content: 'There are no courses defined currently, please define a course before adding a joint course under it.', ephemeral: true })
+          return;
+        }
+        while ((await interaction.fetchReply()).components.length > 0) {
+          continue;
+        }
+        const jointClassString = (await interaction.fetchReply()).toString().split(' ')[0];
+
+        const newCourse: CourseRole = new CourseRole({
+          prefix: prefix,
+          number: number,
+          role: role,
+          veteranRole: veteranRole,
+          video: video,
+          jointClass: jointClassString,
+        });
+        const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
+        if (!newRolesList.includes(newCourse)) {
+          newRolesList.push(newCourse);
+          const newJointClass = newRolesList.find(element => element.name === newCourse.jointClass)
+          if (newJointClass) newRolesList[newRolesList.indexOf(newJointClass)].jointClass = newCourse.name;
+          saveListToFile(newRolesList, 'data/courses.json');
+        }
+      }
       else {
-        await interaction.reply({ content: 'There are no courses defined currently, please define a course before adding a joint course under it.', ephemeral: true })
-        return;
-      }
-      while ((await interaction.fetchReply()).components.length > 0) {
-        continue;
-      }
-      const jointClassString = (await interaction.fetchReply()).toString().split(' ')[0];
-      const newCourse: CourseRole = new CourseRole({
-        prefix: prefix,
-        number: number,
-        role: role,
-        veteranRole: veteranRole,
-        video: video,
-        jointClass: jointClassString,
-      });
-      const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
-      if (!newRolesList.includes(newCourse)) {
-        newRolesList.push(newCourse);
-        newRolesList[newRolesList.indexOf(newRolesList.find(element => element.name === newCourse.jointClass))].jointClass = newCourse.name;
-        saveListToFile(newRolesList, 'data/courses.json');
-      }
-    }
-    else {
-      const newCourse: CourseRole = new CourseRole({
-        prefix: prefix,
-        number: number,
-        role: role,
-        veteranRole: veteranRole,
-        video: video,
-      });
-      const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
-      if (!newRolesList.includes(newCourse)) {
-        newRolesList.push(newCourse);
-        saveListToFile(newRolesList, 'data/courses.json');
-        interaction.reply({ content: 'Course added!', ephemeral: true });
+        const newCourse: CourseRole = new CourseRole({
+          prefix: prefix,
+          number: number,
+          role: role,
+          veteranRole: veteranRole,
+          video: video,
+        });
+        const newRolesList = getListFromFile('data/courses.json') as CourseRole[];
+        if (!newRolesList.includes(newCourse)) {
+          newRolesList.push(newCourse);
+          saveListToFile(newRolesList, 'data/courses.json');
+          interaction.reply({ content: 'Course added!', ephemeral: true });
+        }
       }
     }
   },

@@ -14,6 +14,7 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'role-remove')) return;
+    if (!(interaction.guild && interaction.member)) return;
     const rolesList = getListFromFile('data/optRoles.json') as OptionalRole[];
     const rolesSelected = interaction.values;
     const removedRoles: string[] = [];

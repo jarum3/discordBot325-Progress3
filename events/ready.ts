@@ -8,6 +8,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client: Client) {
-    console.log(`Ready! Logged in as ${client.user.tag}`);
+    if (client.user) {
+      console.log(`Ready! Logged in as ${client.user.tag}`);
+    }
   },
 };

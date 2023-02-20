@@ -16,7 +16,8 @@ module.exports = {
         .setDescription('The category to delete')
         .addChannelTypes(ChannelType.GuildCategory)
         .setRequired(true))
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
     const category: CategoryChannel = interaction.options.getChannel('category') as CategoryChannel;
     category.children.cache.forEach(channel => { channel.delete('Deleted as part of category deletion') });

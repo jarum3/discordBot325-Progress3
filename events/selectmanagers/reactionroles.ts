@@ -13,6 +13,7 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-roles')) return;
+    if (!(interaction.guild && interaction.member)) return;
     const addedRoles: string[] = [];
     const rolesList = getListFromFile('data/optroles.json');
     const rolesSelected = interaction.values;

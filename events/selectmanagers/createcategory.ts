@@ -7,6 +7,7 @@
  * {@link commands/testing/createcoursecategory | Create course category command}.
  * @packageDocumentation
  */
+import { CategoryChannel } from 'discord.js';
 import { Events, BaseInteraction } from 'discord.js';
 import { createAndPopulateCategory, getListFromFile, saveListToFile } from '../../helpers/functions';
 import { CourseRole } from '../../helpers/role';
@@ -16,18 +17,20 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'create-category')) return;
+    if (!interaction.guild) return;
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const courseSelectedString = interaction.values[0];
     const selectedCourseObject = rolesList.find((element: CourseRole) => element.name === courseSelectedString)
     if (selectedCourseObject) {
       const selectedCourse = rolesList.indexOf(selectedCourseObject);
       const guild = interaction.guild;
-      if (guild) {
-        let jointChild;
-        const jointChildObject = rolesList.find(element => element.jointClass === rolesList[selectedCourse].name)
-        if (jointChildObject) jointChild = rolesList.indexOf(jointChildObject);
-        let jointParent: CourseRole | undefined;
-        if (rolesList[selectedCourse].jointClass) jointParent = rolesList.find(element => element.name === rolesList[selectedCourse].jointClass);
+      let jointChild;
+      const jointChildObject = rolesList.find(element => element.jointClass === rolesList[selectedCourse].name)
+      if (jointChildObject) jointChild = rolesList.indexOf(jointChildObject);
+      let jointParent: CourseRole | undefined;
+      let courseCategory: CategoryChannel | undefined = rolesList[selectedCourse].category;
+      if (rolesList[selectedCourse].jointClass) jointParent = rolesList.find(element => element.name === rolesList[selectedCourse].jointClass);
+      if (jointChild) {
         if (rolesList[jointChild]) {
           if (rolesList[jointChild].category) {
             rolesList[selectedCourse].category = rolesList[jointChild].category;
@@ -39,8 +42,8 @@ module.exports = {
             rolesList[selectedCourse].category = jointParent.category;
           }
         }
-        if (rolesList[selectedCourse].category) {
-          if (await guild.channels.fetch(rolesList[selectedCourse].category.id)) {
+        if (courseCategory) {
+          if (await guild.channels.fetch(courseCategory.id)) {
             await interaction.update({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
             return;
           }
@@ -48,7 +51,7 @@ module.exports = {
         await interaction.deferUpdate()
         const category = await createAndPopulateCategory(rolesList[selectedCourse], guild.channels);
         rolesList[selectedCourse].category = category;
-        if (rolesList[jointChild]) rolesList[jointChild].category = category;
+        if (jointChild && rolesList[jointChild]) rolesList[jointChild].category = category;
         saveListToFile(rolesList, 'data/courses.json');
         await interaction.editReply({ content: 'Category created!', components: [] });
       }

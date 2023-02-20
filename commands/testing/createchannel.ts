@@ -22,11 +22,14 @@ module.exports = {
       option.setName('category')
         .setDescription('Category for the new channel to be placed into')
         .addChannelTypes(ChannelType.GuildCategory))
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
+    if (!interaction.guild) return;
     const name = interaction.options.getString('name');
+    if (!name) return;
     const category = interaction.options.getChannel('category') as CategoryChannel;
-    const newChannel: TextChannel = await createChannel(interaction.guild, name);
+    const newChannel: TextChannel | undefined = await createChannel(interaction.guild, name);
     if (newChannel) {
       if (category) {
         await newChannel.setParent(category);

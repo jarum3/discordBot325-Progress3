@@ -24,10 +24,16 @@ module.exports = {
       option.setName('description')
         .setDescription('Role description')
         .setRequired(true))
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
+    if (!interaction.guild) {
+      await interaction.reply('This command is only valid in guilds.');
+      return;
+    }
     const roleName = interaction.options.getString('name');
     const description = interaction.options.getString('description');
+    if (!(roleName && description)) return;
     const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
     const serverRoles = [];
     interaction.guild.roles.cache.forEach(r => {
@@ -49,6 +55,7 @@ module.exports = {
         color = generateColor();
       }
       role = await createRole(interaction.guild, roleName, color);
+      if (!role) return;
     }
     else {
       color = role.hexColor as ColorResolvable;

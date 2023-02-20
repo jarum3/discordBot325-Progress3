@@ -52,7 +52,7 @@ export class OptionalRole {
    * @param {string} description Description to be displayed to students
    * @param {import('discord.js').Role} role object associated with course
    */
-  constructor(name: string, role: Role, description: string = undefined) {
+  constructor(name: string, role: Role, description: string) {
     this.name = name;
     this.description = description;
     this.role = role;

@@ -13,7 +13,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('removeoptrole')
     .setDescription('Provides a dropdown to remove optional roles')
-    .setDefaultMemberPermissions(0),
+    .setDefaultMemberPermissions(0)
+    .setDMPermission(false),
   async execute(interaction: ChatInputCommandInteraction) {
     const row = await RoleSelectMenu('role-remove', false);
     if (row) await interaction.reply({ content: 'Please select which roles you\'d like to remove:', components: [row], ephemeral: true });

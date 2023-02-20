@@ -48,23 +48,28 @@ function deployCommands(): void {
       }
     }
   }
+  if (process.env.CLIENT_TOKEN) {
 
-  const rest = new REST({ version: '10' }).setToken(process.env.CLIENT_TOKEN);
+    const rest = new REST({ version: '10' }).setToken(process.env.CLIENT_TOKEN);
 
-  (async () => {
-    try {
-      console.log(`Started refreshing ${commands.length} application (/) commands.`);
+    (async () => {
+      try {
+        console.log(`Started refreshing ${commands.length} application (/) commands.`);
+        if (process.env.CLIENT_ID != undefined) {
+          const data = await rest.put(
+            Routes.applicationCommands(process.env.CLIENT_ID),
+            { body: commands },
+          ) as string[];
 
-      const data = await rest.put(
-        Routes.applicationCommands(process.env.CLIENT_ID),
-        { body: commands },
-      ) as string[];
-
-      console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-    }
-    catch (error) {
-      console.error(error);
-    }
-  })();
+          console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+        }
+        else console.error('CLIENT_ID is not defined in .env');
+      }
+      catch (error) {
+        console.error(error);
+      }
+    })();
+  }
+  else console.error('CLIENT_TOKEN is not defined in .env');
 }
 deployCommands();

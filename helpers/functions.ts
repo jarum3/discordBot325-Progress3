@@ -28,7 +28,7 @@ export function parseLines(file: string): string[] {
   return fs.readFileSync(file).toString().split('\n');
 }
 
-export async function createChannel(guild: Guild, name: string): Promise<TextChannel> {
+export async function createChannel(guild: Guild, name: string): Promise<TextChannel | undefined> {
   return guild.channels.create({
     name: name,
     type: ChannelType.GuildText,
@@ -49,7 +49,7 @@ export async function createChannel(guild: Guild, name: string): Promise<TextCha
  * @param {import('discord.js').Role?} role A role to lock the channel to, unlocked by default 
  * @returns 
  */
-export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role = undefined,): Promise<CategoryChannel> {
+export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role | undefined = undefined,): Promise<CategoryChannel | undefined> {
   if (role) {
     return ChannelManager.create({
       name: name,
@@ -88,7 +88,7 @@ export async function createCategory(name: string, ChannelManager: GuildChannelM
  * @param {boolean} multi Whether the user should be able to select multiple values at once, or just one
  * @returns {Promise<import('discord.js').ActionRowBuilder<import('discord.js').StringSelectMenuBuilder>>}
  */
-export async function RoleSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
+export async function RoleSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder> | undefined> {
   const rolesList = getListFromFile('data/optroles.json') as OptionalRole[];
   if (rolesList.length === 0) {
     return undefined;
@@ -113,7 +113,7 @@ export async function RoleSelectMenu(customId: string, multi: boolean): Promise<
   return row;
 }
 
-export async function CourseSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder>> {
+export async function CourseSelectMenu(customId: string, multi: boolean): Promise<ActionRowBuilder<StringSelectMenuBuilder> | undefined> {
   const rolesList = getListFromFile('data/courses.json') as CourseRole[];
   if (rolesList.length === 0) {
     return undefined;
@@ -134,7 +134,7 @@ export async function archiveCategory(category: CategoryChannel, originalRole: R
 
 }
 
-export async function createRole(guild: Guild, name: string, color: ColorResolvable): Promise<Role> {
+export async function createRole(guild: Guild, name: string, color: ColorResolvable): Promise<Role | undefined> {
   return guild.roles.create({
     name: name,
     color: color as ColorResolvable,
@@ -208,8 +208,10 @@ export async function createAndPopulateCategory(course: CourseRole, ChannelManag
   createChannelInCat(course, 'zoom-meeting-info-' + courseNumber, true);
   if (course.video) {
     const videoChannel = await createChannelInCat(course, 'how-to-make-a-video', true);
-    const messages = parseLines('data/videoMessages.txt');
-    messages.forEach(message => videoChannel.send(message));
+    if (videoChannel) {
+      const messages = parseLines('data/videoMessages.txt');
+      messages.forEach(message => videoChannel.send(message));
+    }
   }
   createChannelInCat(course, 'introduce-yourself');
   createChannelInCat(course, 'chat');
@@ -217,18 +219,21 @@ export async function createAndPopulateCategory(course: CourseRole, ChannelManag
 }
 
 export async function createChannelInCat(course: CourseRole, name: string, readOnly: boolean = false) {
-  let newChannel: TextChannel = await createChannel(course.category.guild, name)
-    .then(channel => {
-      return channel;
-    })
-    .catch(channel => {
-      return undefined;
-    });
-  if (newChannel) {
-    newChannel = await newChannel.setParent(course.category);
-    await newChannel.lockPermissions();
-    if (readOnly) await newChannel.permissionOverwrites.edit(course.role.id, { SendMessages: false });
-    return newChannel;
+  if (course.category) {
+    let newChannel: TextChannel | undefined = await createChannel(course.category.guild, name)
+      .then(channel => {
+        return channel;
+      })
+      .catch(() => {
+        return undefined;
+      });
+    if (newChannel) {
+      newChannel = await newChannel.setParent(course.category);
+      await newChannel.lockPermissions();
+      if (readOnly) await newChannel.permissionOverwrites.edit(course.role.id, { SendMessages: false });
+      return newChannel;
+    }
+    else return undefined;
   }
   else return undefined;
 }
