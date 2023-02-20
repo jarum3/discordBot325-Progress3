@@ -28,6 +28,12 @@ export function parseLines(file: string): string[] {
   return fs.readFileSync(file).toString().split('\n');
 }
 
+/**
+ *
+ * @param {import('discord.js').Guild} guild - Guild to create new channel in
+ * @param {string} name - Name of new channel
+ * @returns {Promise<import('discord.js').TextChannel | undefined>} The newly-created text channel, if it was successful.
+ */
 export async function createChannel(guild: Guild, name: string): Promise<TextChannel | undefined> {
   return guild.channels.create({
     name: name,
