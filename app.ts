@@ -2,6 +2,15 @@
  * Main starting point for application, utilizes .env, scans command directories and event directories, and executes bot.
  * @packageDocumentation
  */
+
+/*
+This module uses require and explicit any to handle event handlers,
+in ways that are less intuitive using top-level imports
+Or impossible without explicit any.
+*/
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Dependencies
 import * as path from 'node:path';
 import * as fs from 'node:fs';

@@ -185,10 +185,10 @@ export function getListFromFile(file: string): CourseRole[] | OptionalRole[] {
 }
 /**
  * Determines if given color is valid hex or color descriptor
- * @param {any} strColor - Possible color string
+ * @param {string} strColor - Possible color string
  * @returns {boolean} True if color is valid hex or color descriptor
  */
-export function isColor(strColor: any): boolean {
+export function isColor(strColor: string): boolean {
   const RegExp = /(^#?[0-9A-F]{6}$)|(^#?[0-9A-F]{3}$)/i; // Regex to check if the input is a valid hex code.
   return Object.keys(Colors).includes(capitalizeString(strColor)) || RegExp.test(strColor);
 }

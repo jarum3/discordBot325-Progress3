@@ -3,6 +3,12 @@
  * @remarks This function serves primarily as a standalone script, not called by other modules.
  * @packageDocumentation
  */
+
+/*
+This module uses require and explicit any to handle event handlers,
+in ways that are less intuitive using top-level imports
+*/
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { REST, Routes } from 'discord.js';
 import * as path from 'node:path';
 import * as fs from 'node:fs';

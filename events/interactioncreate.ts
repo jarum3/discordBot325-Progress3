@@ -3,13 +3,23 @@
  * to distinct files.
  * @packageDocumentation
  */
+
+/*
+This module uses require and explicit any to handle event handlers,
+in ways that are less intuitive using top-level imports
+Or impossible without explicit any.
+*/
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Events, Collection, BaseInteraction } from 'discord.js';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
+
 // Creating interface for client to access commands
 declare module 'discord.js' {
   export interface Client {
-    commands: Collection<unknown, any>
+    commands: Collection<unknown, any>;
   }
 }
 

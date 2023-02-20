@@ -5,7 +5,7 @@ This bot seeks to create an effective system for managing roles automatically, s
 
 This bot runs from [app.js](app.js), processes commands as exports with a data and async execute function section from [commands/](commands/), stores data in [data/](data/), handles event interaction in [events/](events/), and has several useful definitions for functions and objects under [helpers/](helpers/). To create new commands, create a file in [commands/](commands/) following the structure of other commands already available, then fill in necessary fields to distinguish its name, description, and functionality.
 
-Additionally, [This ESLint file](.eslintrc.json) lists out rules for formatting when pushing code, I'd recommend using some automatic linter to ensure those rules are followed. Since this is a work in progress, several files have unused variable checking turned off temporarily.
+Additionally, [This ESLint file](.eslintrc.json) lists out rules for formatting when pushing code, I'd recommend using some automatic linter to ensure those rules are followed. In cases where rules are manually disabled by-file or by-line, please include justification for why this needs to be done next to the disabling comment.
 
 # Getting started
 

@@ -117,7 +117,7 @@
     "space-unary-ops": "warn",
     "spaced-comment": "warn",
     "yoda": "error",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }
