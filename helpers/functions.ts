@@ -52,7 +52,7 @@ export async function createChannel(guild: Guild, name: string): Promise<TextCha
  *
  * @param {string} name - The name for the category
  * @param {import('discord.js').GuildChannelManager} ChannelManager - A channel manager for a guild, can be obtained using interaction.guild.channels
- * @param {import('discord.js').Role?} role - A role to lock the channel to, unlocked by default
+ * @param {import('discord.js').Role | undefined} [role=undefined] - A role to lock the channel to, unlocked by default
  * @returns {Promise<import('discord.js').CategoryChannel>} - The newly-created category channel
  */
 export async function createCategory(name: string, ChannelManager: GuildChannelManager, role: Role | undefined = undefined): Promise<CategoryChannel | undefined> {
