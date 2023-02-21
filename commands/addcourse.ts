@@ -11,7 +11,7 @@
  * ## jointclass
  * * Optional boolean for if another course needs to share a category with the generated course
  * # Menu
- * * Jointclass creates a dropdown to select a course string, with CustomId 'joint-course', defined in the {@link events/selectmanagers/jointcourse}
+ * * Jointclass creates a dropdown to select a course string, with CustomId 'joint-course', defined in the {@link events/selectmanagers/jointcourse | Joint course event handler}.
  * @packageDocumentation
  */
 import { SlashCommandStringOption, SlashCommandBuilder, SlashCommandBooleanOption, ChatInputCommandInteraction, ColorResolvable } from 'discord.js';
