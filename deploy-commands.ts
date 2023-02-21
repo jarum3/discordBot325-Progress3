@@ -14,9 +14,6 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 import * as dotenv from 'dotenv';
 
-/**
-
- */
 function deployCommands(): void {
   dotenv.config();
   const commands = [];
