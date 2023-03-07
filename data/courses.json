@@ -1,1 +1,193 @@
-[{"prefix":"VID","number":"101","name":"VID-101","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473222125604904","name":"VID-101","color":4910706,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721616060},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473223186763797","name":"VID-101 Veteran","color":2607951,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721616313},"video":true,"category":{"type":4,"guild":"1060586500003213332","guildId":"1060586500003213332","parentId":null,"permissionOverwrites":["1060586500003213332","1076473222125604904"],"flags":0,"id":"1076480627815227422","name":"VID 101 - Winter 2023","rawPosition":2,"createdTimestamp":1676723381714}},{"prefix":"JNT","number":"500","name":"JNT-500","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473277255520306","name":"JNT-500","color":7018143,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721629204},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473279163940974","name":"JNT-500 Veteran","color":4718716,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721629659},"video":false,"jointClass":"JNT-101","category":{"type":4,"guild":"1060586500003213332","guildId":"1060586500003213332","parentId":null,"permissionOverwrites":["1060586500003213332","1076473277255520306"],"flags":0,"id":"1076480683536564306","name":"JNT 500 / JNT-101 - Winter 2023","rawPosition":3,"createdTimestamp":1676723394999}},{"prefix":"JNT","number":"101","name":"JNT-101","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473310013042728","name":"JNT-101","color":11704314,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721637014},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1076473311481036830","name":"JNT-101 Veteran","color":9401559,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676721637364},"video":false,"jointClass":"JNT-500","category":{"type":4,"guild":"1060586500003213332","guildId":"1060586500003213332","parentId":null,"permissionOverwrites":["1060586500003213332","1076473277255520306"],"flags":0,"id":"1076480683536564306","name":"JNT 500 / JNT-101 - Winter 2023","rawPosition":3,"createdTimestamp":1676723394999}},{"prefix":"CIS","number":"300","name":"CIS-300","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1077092524994347080","name":"CIS-300","color":2957187,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676869269370},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1077092528609824818","name":"CIS-300 Veteran","color":655456,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1676869270232},"video":false}]
+[
+  {
+    "prefix": "VID",
+    "number": "101",
+    "name": "VID-101",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473222125604904",
+      "name": "VID-101",
+      "color": 4910706,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721616060
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473223186763797",
+      "name": "VID-101 Veteran",
+      "color": 2607951,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721616313
+    },
+    "video": true,
+    "category": {
+      "type": 4,
+      "guild": "1060586500003213332",
+      "guildId": "1060586500003213332",
+      "parentId": null,
+      "permissionOverwrites": [
+        "1060586500003213332",
+        "1076473222125604904"
+      ],
+      "flags": 0,
+      "id": "1076480627815227422",
+      "name": "VID 101 - Winter 2023",
+      "rawPosition": 2,
+      "createdTimestamp": 1676723381714
+    }
+  },
+  {
+    "prefix": "JNT",
+    "number": "500",
+    "name": "JNT-500",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473277255520306",
+      "name": "JNT-500",
+      "color": 7018143,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721629204
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473279163940974",
+      "name": "JNT-500 Veteran",
+      "color": 4718716,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721629659
+    },
+    "video": false,
+    "jointClass": "JNT-101",
+    "category": {
+      "type": 4,
+      "guild": "1060586500003213332",
+      "guildId": "1060586500003213332",
+      "parentId": null,
+      "permissionOverwrites": [
+        "1060586500003213332",
+        "1076473277255520306"
+      ],
+      "flags": 0,
+      "id": "1076480683536564306",
+      "name": "JNT 500 / JNT-101 - Winter 2023",
+      "rawPosition": 3,
+      "createdTimestamp": 1676723394999
+    }
+  },
+  {
+    "prefix": "JNT",
+    "number": "101",
+    "name": "JNT-101",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473310013042728",
+      "name": "JNT-101",
+      "color": 11704314,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721637014
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1076473311481036830",
+      "name": "JNT-101 Veteran",
+      "color": 9401559,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676721637364
+    },
+    "video": false,
+    "jointClass": "JNT-500",
+    "category": {
+      "type": 4,
+      "guild": "1060586500003213332",
+      "guildId": "1060586500003213332",
+      "parentId": null,
+      "permissionOverwrites": [
+        "1060586500003213332",
+        "1076473277255520306"
+      ],
+      "flags": 0,
+      "id": "1076480683536564306",
+      "name": "JNT 500 / JNT-101 - Winter 2023",
+      "rawPosition": 3,
+      "createdTimestamp": 1676723394999
+    }
+  },
+  {
+    "prefix": "CIS",
+    "number": "300",
+    "name": "CIS-300",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1077092524994347080",
+      "name": "CIS-300",
+      "color": 2957187,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676869269370
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1077092528609824818",
+      "name": "CIS-300 Veteran",
+      "color": 655456,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1676869270232
+    },
+    "video": false
+  }
+]

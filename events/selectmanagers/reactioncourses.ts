@@ -13,7 +13,8 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-courses')) return;
-    if (!interaction.guild || !interaction.member) return;
+    if (!(interaction.guild && interaction.member)) return;
+    await interaction.deferReply({ ephemeral: true });
     const addedCourses = [];
     const rolesList = getListFromFile('data/courses.json');
     const rolesSelected = interaction.values;
@@ -32,6 +33,6 @@ module.exports = {
         }
       }
     }
-    await interaction.reply({ content: 'Roles added: ' + addedCourses.join(', '), ephemeral: true });
+    await interaction.editReply({ content: 'Roles added: ' + addedCourses.join(', ') });
   },
 };

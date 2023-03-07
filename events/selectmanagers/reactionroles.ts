@@ -14,7 +14,8 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-roles')) return;
     if (!(interaction.guild && interaction.member)) return;
-    const addedRoles: string[] = [];
+    await interaction.deferReply({ ephemeral: true });
+    const addedRoles = [];
     const rolesList = getListFromFile('data/optroles.json');
     const rolesSelected = interaction.values;
     // Assign roles
@@ -26,12 +27,12 @@ module.exports = {
         for (const selection of rolesSelected) {
           if (selection === role.name) {
             // Course = course to add, selection = selection matching that
-            await roles.add(optRole.id);
+            await roles.add(optRole);
             addedRoles.push(optRole.name);
           }
         }
       }
     }
-    await interaction.reply({ content: 'Roles added: ' + addedRoles.join(', '), ephemeral: true });
+    await interaction.editReply({ content: 'Roles added: ' + addedRoles.join(', ') });
   },
 };

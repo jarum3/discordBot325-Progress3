@@ -34,12 +34,12 @@ module.exports = {
       for (const file of eventFiles) {
         const filePath = path.join(selectPath, file);
         const event = require(filePath);
-        if (event.once) { // If the event only runs once, use once
-          interaction.client.once(event.name, (...args: any) => event.execute(...args)); // Using rest and spread to pass all arguments
-        }
-        else {
-          interaction.client.on(event.name, (...args: any) => event.execute(...args));
-        }
+        // if (event.once) { // If the event only runs once, use once
+        interaction.client.once(event.name, (...args: any) => event.execute(...args)); // Using rest and spread to pass all arguments
+        // }
+        // else {
+        //   interaction.client.on(event.name, (...args: any) => event.execute(...args));
+        // }
       }
     }
     if (interaction.isChatInputCommand()) {
