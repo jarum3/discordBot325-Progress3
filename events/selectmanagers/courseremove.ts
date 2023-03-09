@@ -18,6 +18,7 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'course-remove')) return;
     if (!(interaction.guild)) return;
+    await interaction.deferReply({ ephemeral: true });
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const rolesSelected = interaction.values;
     const removedRoles: string[] = [];

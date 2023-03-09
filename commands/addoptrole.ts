@@ -31,6 +31,7 @@ module.exports = {
       await interaction.reply('This command is only valid in guilds.');
       return;
     }
+    await interaction.deferReply({ ephemeral: true });
     const roleName = interaction.options.getString('name');
     const description = interaction.options.getString('description');
     if (!(roleName && description)) return;
@@ -42,7 +43,7 @@ module.exports = {
     for (const role of rolesList) {
       if (role.name === roleName) {
         // If our role is already in the list, just return an error message
-        interaction.reply({ content: 'A role with that name already exists.', ephemeral: true });
+        interaction.editReply({ content: 'A role with that name already exists.' });
         return;
       }
     }
@@ -67,6 +68,6 @@ module.exports = {
     );
     rolesList.push(newRole);
     saveListToFile(rolesList, 'data/optroles.json');
-    interaction.reply({ content: 'Role added!', ephemeral: true });
+    interaction.editReply({ content: 'Role added!' });
   },
 };
