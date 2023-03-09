@@ -5,7 +5,7 @@
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { CourseSelectMenu } from '../../helpers/functions';
+import { CourseSelectMenu } from '../helpers/functions';
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('createcoursecategory')
