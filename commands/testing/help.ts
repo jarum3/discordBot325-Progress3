@@ -20,6 +20,7 @@ module.exports = {
         { name: 'Opt Roles Builder', value: 'Creates a dropdown for students to select optional roles. Use this in a channel students should access to receive roles.' },
         { name: 'Set Semester', value: 'Sets the upcoming semester value, appended to each category' },
         { name: 'Start Semester', value: 'Uses the currently-defined courses and optional roles to start a new semester\nAutomatically creates channels. permissions, transfers over student roles, and archives old channels.' },
+        { name: 'Delete Category', value: 'Deletes a given category, and all the channels inside it. By default, Discord lets all channels in a deleted category float to the top of the channel list.' },
       );
 
     await interaction.reply({ embeds: [embed] });
