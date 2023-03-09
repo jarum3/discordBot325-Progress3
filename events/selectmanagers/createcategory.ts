@@ -18,10 +18,11 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'create-category')) return;
     if (!interaction.guild) return;
+    // await interaction.deferUpdate();
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const courseSelectedString = interaction.values[0];
     const selectedCourseObject = rolesList.find((element: CourseRole) => element.name === courseSelectedString);
-    if (selectedCourseObject) {
+    if (selectedCourseObject != undefined) {
       const selectedCourse = rolesList.indexOf(selectedCourseObject);
       const guild = interaction.guild;
       let jointChild;
@@ -36,26 +37,24 @@ module.exports = {
             rolesList[selectedCourse].category = rolesList[jointChild].category;
           }
         }
-        if (jointParent) {
-          rolesList[selectedCourse].jointClass = jointParent.name;
-          if (jointParent.category) {
-            rolesList[selectedCourse].category = jointParent.category;
-          }
-        }
-        if (courseCategory) {
-          if (await guild.channels.fetch(courseCategory.id)) {
-            await interaction.update({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
-            return;
-          }
-        }
-        await interaction.deferUpdate();
-        const category = await createAndPopulateCategory(rolesList[selectedCourse], guild.channels);
-        rolesList[selectedCourse].category = category;
-        if (jointChild && rolesList[jointChild]) rolesList[jointChild].category = category;
-        saveListToFile(rolesList, 'data/courses.json');
-        await interaction.editReply({ content: 'Category created!', components: [] });
       }
-      else await interaction.update('Sorry, this command cannot be used outside of guilds.');
+      if (jointParent) {
+        rolesList[selectedCourse].jointClass = jointParent.name;
+        if (jointParent.category) {
+          rolesList[selectedCourse].category = jointParent.category;
+        }
+      }
+      if (courseCategory) {
+        if (await guild.channels.cache.has(courseCategory.id)) {
+          await interaction.update({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
+          return;
+        }
+      }
+      const category = await createAndPopulateCategory(rolesList[selectedCourse], guild.channels);
+      rolesList[selectedCourse].category = category;
+      if (jointChild && rolesList[jointChild]) rolesList[jointChild].category = category;
+      saveListToFile(rolesList, 'data/courses.json');
+      await interaction.update({ content: 'Category created!', components: [] });
     }
     // Shouldn't reach here, but the error-check is necessary for compilation
     else await interaction.update('Sorry, that role wasn\'t found in the list.');
