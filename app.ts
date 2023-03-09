@@ -75,13 +75,26 @@ if (testing) {
 }
 
 const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.endsWith(currentFileExtension));
+let eventFiles = fs.readdirSync(eventsPath).filter((file: string) => file.endsWith(currentFileExtension));
 /**
  * Maximum for event listeners is 25, if more listeners are needed, please edit this line when those are added.
  */
 events.setMaxListeners(25);
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) { // If the event only runs once, use once
+    client.once(event.name, (...args: any) => event.execute(...args)); // Using rest and spread to pass all arguments
+  }
+  else {
+    client.on(event.name, (...args: any) => event.execute(...args));
+  }
+}
+const selectPath = path.join(__dirname, 'events/selectmanagers');
+eventFiles = fs.readdirSync(selectPath).filter((file: string) => file.endsWith(currentFileExtension));
+
+for (const file of eventFiles) {
+  const filePath = path.join(selectPath, file);
   const event = require(filePath);
   if (event.once) { // If the event only runs once, use once
     client.once(event.name, (...args: any) => event.execute(...args)); // Using rest and spread to pass all arguments
