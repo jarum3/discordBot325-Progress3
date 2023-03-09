@@ -10,7 +10,6 @@ import { getListFromFile } from '../../helpers/functions';
 
 module.exports = {
   name: Events.InteractionCreate,
-  once: true,
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-roles')) return;
@@ -34,6 +33,6 @@ module.exports = {
         }
       }
     }
-    await interaction.editReply({ content: 'Roles added: ' + addedRoles.join(', ') });
+    await interaction.editReply({ content: 'Roles added: ' + addedRoles.join(', '), components: [] });
   },
 };

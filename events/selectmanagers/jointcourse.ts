@@ -12,6 +12,6 @@ module.exports = {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'joint-course')) return;
-    interaction.update({ content: interaction.values[0] + ' selected!', components: [] });
+    interaction.editReply({ content: interaction.values[0] + ' selected!', components: [] });
   },
 };

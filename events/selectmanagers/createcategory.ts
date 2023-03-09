@@ -18,7 +18,7 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'create-category')) return;
     if (!interaction.guild) return;
-    // await interaction.deferUpdate();
+    await interaction.deferUpdate();
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const courseSelectedString = interaction.values[0];
     const selectedCourseObject = rolesList.find((element: CourseRole) => element.name === courseSelectedString);
@@ -46,7 +46,7 @@ module.exports = {
       }
       if (courseCategory) {
         if (await guild.channels.cache.has(courseCategory.id)) {
-          await interaction.update({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
+          await interaction.editReply({ content: 'Sorry, that category already exists, it was possibly created as part of a joint course.', components: [] });
           return;
         }
       }
@@ -54,9 +54,9 @@ module.exports = {
       rolesList[selectedCourse].category = category;
       if (jointChild && rolesList[jointChild]) rolesList[jointChild].category = category;
       saveListToFile(rolesList, 'data/courses.json');
-      await interaction.update({ content: 'Category created!', components: [] });
+      await interaction.editReply({ content: 'Category created!', components: [] });
     }
     // Shouldn't reach here, but the error-check is necessary for compilation
-    else await interaction.update('Sorry, that role wasn\'t found in the list.');
+    else await interaction.editReply('Sorry, that role wasn\'t found in the list.');
   },
 };

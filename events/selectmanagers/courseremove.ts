@@ -18,7 +18,7 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'course-remove')) return;
     if (!(interaction.guild)) return;
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferUpdate();
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const rolesSelected = interaction.values;
     const removedRoles: string[] = [];
@@ -38,6 +38,6 @@ module.exports = {
         saveListToFile(rolesList, 'data/courses.json');
       }
     }
-    await interaction.update({ content: 'Course removed: ' + removedRoles.join(', '), components: [] });
+    await interaction.editReply({ content: 'Course removed: ' + removedRoles.join(', '), components: [] });
   },
 };

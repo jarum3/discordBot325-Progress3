@@ -10,7 +10,6 @@ import { getListFromFile } from '../../helpers/functions';
 
 module.exports = {
   name: Events.InteractionCreate,
-  once: true,
   async execute(interaction: BaseInteraction) {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'reaction-courses')) return;

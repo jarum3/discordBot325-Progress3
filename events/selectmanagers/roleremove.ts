@@ -15,7 +15,7 @@ module.exports = {
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'role-remove')) return;
     if (!(interaction.guild && interaction.member)) return;
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferUpdate();
     const rolesList = getListFromFile('data/optRoles.json') as OptionalRole[];
     const rolesSelected = interaction.values;
     const removedRoles: string[] = [];
@@ -31,6 +31,6 @@ module.exports = {
         saveListToFile(rolesList, 'data/optroles.json');
       }
     }
-    await interaction.editReply({ content: 'Roles removed: ' + removedRoles.join(', ') });
+    await interaction.editReply({ content: 'Roles removed: ' + removedRoles.join(', '), components: [] });
   },
 };
