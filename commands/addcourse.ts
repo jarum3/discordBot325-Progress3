@@ -45,9 +45,11 @@ module.exports = {
       await interaction.reply('This command is only valid in guilds.');
       return;
     }
+    await interaction.deferReply({ ephemeral: true });
     const prefix = interaction.options.getString('prefix');
     const number = interaction.options.getString('number');
-    const video = interaction.options.getBoolean('video');
+    let video = interaction.options.getBoolean('video');
+    if (!video) video = false;
     const jointClass = interaction.options.getBoolean('jointclass');
     const rolesList: CourseRole[] = getListFromFile('data/courses.json') as CourseRole[];
     const serverRoles = [];
@@ -80,14 +82,13 @@ module.exports = {
       const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
       veteranRole = await createRole(interaction.guild, roleName + ' Veteran', veteranColor);
     }
-    if (prefix && number && role && veteranRole && video) {
+    if (prefix && number && role && veteranRole && (video != undefined)) {
       if (jointClass) {
         const row = await CourseSelectMenu('joint-course', false);
-        if (row) await interaction.reply({ content: 'Please select a course to share a category with', components: [row], ephemeral: true });
+        if (row) await interaction.editReply({ content: 'Please select a course to share a category with', components: [row] });
         else {
-          await interaction.reply({
+          await interaction.editReply({
             content: 'There are no courses defined currently, please define a course before adding a joint course under it.',
-            ephemeral: true,
           });
           return;
         }
@@ -110,6 +111,7 @@ module.exports = {
           const newJointClass = newRolesList.find(element => element.name === newCourse.jointClass);
           if (newJointClass) newRolesList[newRolesList.indexOf(newJointClass)].jointClass = newCourse.name;
           saveListToFile(newRolesList, 'data/courses.json');
+          await interaction.editReply('Course added!');
         }
       }
       else {
@@ -124,7 +126,7 @@ module.exports = {
         if (!newRolesList.includes(newCourse)) {
           newRolesList.push(newCourse);
           saveListToFile(newRolesList, 'data/courses.json');
-          interaction.reply({ content: 'Course added!', ephemeral: true });
+          interaction.editReply({ content: 'Course added!' });
         }
       }
     }
