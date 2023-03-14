@@ -74,6 +74,7 @@ module.exports = {
         color = generateColor();
       }
       role = await createRole(interaction.guild, roleName, color);
+      // TODO set permissions and position
     }
     else {
       color = role.hexColor;
@@ -81,6 +82,7 @@ module.exports = {
     if (!veteranRole) {
       const veteranColor = adjustColor(color.toString(), -35) as ColorResolvable;
       veteranRole = await createRole(interaction.guild, roleName + ' Veteran', veteranColor);
+      // TODO set permissions and position
     }
     if (prefix && number && role && veteranRole && (video != undefined)) {
       if (jointClass) {
