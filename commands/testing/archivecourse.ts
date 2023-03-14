@@ -3,6 +3,7 @@
  * @packageDocumentation
  */
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { CourseSelectMenu } from '../../helpers/functions';
 // Pings, returns time pinged. A template for other commands.
 module.exports = {
   data: new SlashCommandBuilder().setName('archivecourse').setDescription('Archives a course and all its students.'),
@@ -15,7 +16,8 @@ module.exports = {
     // [ ] Transfer student roles over, loop over each student with student role for this course, remove it, add the veteran role
     // [ ] Save transferred students to a file (listed above)
     // [ ] Transfer from current courses file to previous courses file (Remove category from current course copy)
-    const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
-    interaction.editReply(`Pong!\nTook ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
+    const row = await CourseSelectMenu('archive-course', false);
+    if (row) await interaction.reply({ content: 'Please select which course you\'d like to archive:', components: [row], ephemeral: true });
+    else await interaction.reply({ content: 'There are no courses defined currently.', ephemeral: true });
   },
 };
