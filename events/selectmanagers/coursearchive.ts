@@ -38,11 +38,7 @@ module.exports = {
         // [ ] Transfer student roles over, loop over each student with student role for this course, remove it, add the veteran role
         // [ ] Save transferred students to a file (listed above)
         // [ ] Transfer from current courses file to previous courses file (Remove category from current course copy)
-        if (serverRole) serverRole.delete('Deleted as part of course deletion');
-        if (serverVeteranRole && serverVeteranRole.members.size === 0) serverVeteranRole.delete('Deleted as part of course deletion');
-        rolesList.splice(rolesList.indexOf(course), 1);
-        archivedRoles.push(course.name);
-        saveListToFile(rolesList, 'data/courses.json');
+
       }
     }
     await interaction.editReply({ content: 'Course removed: ' + archivedRoles.join(', '), components: [] });
