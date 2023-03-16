@@ -9,7 +9,7 @@
  * @packageDocumentation
  */
 import { Events, BaseInteraction, GuildBasedChannel, CategoryChannel } from 'discord.js';
-import { getListFromFile, saveListToFile } from '../../helpers/functions';
+import { getListFromFile, getSemester, saveListToFile } from '../../helpers/functions';
 import { CourseRole } from '../../helpers/role';
 
 module.exports = {
@@ -33,27 +33,39 @@ module.exports = {
         const serverRole = await interaction.guild.roles.fetch(courseRole.id);
         const serverVeteranRole = await interaction.guild.roles.fetch(veteranRole.id);
         // TODO
-        // [ ] Move course to bottom: find first course of name matching current semester, then find first course after that not matching, put this course above that.
+        // [X] Move course to bottom: find first course of name matching current semester, then find first course after that not matching, put this course above that.
         // [ ] Change role permissions from student to veteran
         // [ ] Transfer student roles over, loop over each student with student role for this course, remove it, add the veteran role
         // [ ] Save transferred students to a file (listed above)
         // [ ] Transfer from current courses file to previous courses file (Remove category from current course copy)
         if (course.category) {
-          console.log('Here!');
-          let foundCurrent = false;
-          const channels: CategoryChannel[] = [];
-          for (const channelArray of interaction.guild.channels.cache.entries()) {
-            for (const possibleChannel of channelArray) {
-              if ((<GuildBasedChannel>possibleChannel).name !== undefined) {
-                const channel = possibleChannel as GuildBasedChannel;
-                if ((<CategoryChannel>channel).children !== undefined) {
-                  channels.push(channel as CategoryChannel);
+          const category = await interaction.guild.channels.fetch(course.category.id) as CategoryChannel;
+          if (category) {
+            const channels: CategoryChannel[] = [];
+            for (const channelArray of interaction.guild.channels.cache.entries()) {
+              for (const possibleChannel of channelArray) {
+                if ((<GuildBasedChannel>possibleChannel).name !== undefined) {
+                  const channel = possibleChannel as GuildBasedChannel;
+                  if ((<CategoryChannel>channel).children !== undefined) {
+                    channels.push(channel as CategoryChannel);
+                  }
                 }
               }
             }
+            channels.sort((a, b) => a.position - b.position);
+            // channels now represents all the categories in the server, sorted by their position
+            let foundCurrent = false;
+            let position = -1;
+            for (const channel of channels) {
+              if (channel.name.includes(getSemester())) foundCurrent = true;
+              if (foundCurrent === true && !channel.name.includes(getSemester())) {
+                position = channel.position - 1;
+                break;
+              }
+            }
+            if (position >= 0) category.setPosition(position);
+            else category.setPosition(300000);
           }
-          channels.sort((a, b) => a.position - b.position);
-          // channels now represents all the categories in the server, sorted by their position
         }
         else {
           await interaction.reply('This course doesn\'t currently have a category');
