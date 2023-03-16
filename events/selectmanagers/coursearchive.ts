@@ -15,30 +15,36 @@ import { CourseRole } from '../../helpers/role';
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction: BaseInteraction) {
-    // TODO add handling for joint courses
+    // Move course into bottom physically, remove from course list, move students into veteran roles, save that data into file
+    // IE REMOVE [role id] FROM [student id]
     if (!interaction.isStringSelectMenu()) return;
     if (!(interaction.customId === 'archive-course')) return;
     if (!(interaction.guild)) return;
     await interaction.deferUpdate();
     const rolesList = getListFromFile('data/courses.json') as CourseRole[];
     const rolesSelected = interaction.values;
-    const removedRoles: string[] = [];
+    const archivedRoles: string[] = [];
     // Assign roles in a loop, in case we want to make this a multi-select later.
     for (const selectedElement of rolesSelected) {
       for (const course of rolesList) {
         if (course.name != selectedElement) continue;
         const courseRole = course.role;
         const veteranRole = course.veteranRole;
-        // Deletes roles if their members are empty
         const serverRole = await interaction.guild.roles.fetch(courseRole.id);
         const serverVeteranRole = await interaction.guild.roles.fetch(veteranRole.id);
+        // TODO
+        // [ ] Move course to bottom, find first course of name matching current semester, then find first course after that not matching, put this course above that.
+        // [ ] Change role permissions from student to veteran
+        // [ ] Transfer student roles over, loop over each student with student role for this course, remove it, add the veteran role
+        // [ ] Save transferred students to a file (listed above)
+        // [ ] Transfer from current courses file to previous courses file (Remove category from current course copy)
         if (serverRole) serverRole.delete('Deleted as part of course deletion');
         if (serverVeteranRole && serverVeteranRole.members.size === 0) serverVeteranRole.delete('Deleted as part of course deletion');
         rolesList.splice(rolesList.indexOf(course), 1);
-        removedRoles.push(course.name);
+        archivedRoles.push(course.name);
         saveListToFile(rolesList, 'data/courses.json');
       }
     }
-    await interaction.editReply({ content: 'Course removed: ' + removedRoles.join(', '), components: [] });
+    await interaction.editReply({ content: 'Course removed: ' + archivedRoles.join(', '), components: [] });
   },
 };

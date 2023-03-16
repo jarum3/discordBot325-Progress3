@@ -31,7 +31,7 @@ module.exports = {
         // Deletes roles if their members are empty
         const serverRole = await interaction.guild.roles.fetch(courseRole.id);
         const serverVeteranRole = await interaction.guild.roles.fetch(veteranRole.id);
-        if (serverRole) serverRole.delete('Deleted as part of course deletion');
+        if (serverRole && serverRole.members.size === 0) serverRole.delete('Deleted as part of course deletion');
         if (serverVeteranRole && serverVeteranRole.members.size === 0) serverVeteranRole.delete('Deleted as part of course deletion');
         rolesList.splice(rolesList.indexOf(course), 1);
         removedRoles.push(course.name);
