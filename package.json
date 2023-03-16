@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx ts-node deploy-commands.ts && npx ts-node app.ts",
     "start-prod": "npx tsc && npx shx cp .env ./build/.env && node ./build/deploy-commands.js && node ./build/app.js",
+    "start-rapid": "npx ts-node app.ts",
     "docs": "npx typedoc --options typedoc.json",
     "lint": "npx eslint . --ext .ts"
   },
