@@ -1,1 +1,104 @@
-[{"prefix":"CSC","number":"325","name":"CSC-325","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1083459586897490040","name":"CSC-325","color":15611831,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1678387295222},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1083459587602120735","name":"CSC-325 Veteran","color":13309076,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":null,"createdTimestamp":1678387295390},"video":false,"category":{"type":4,"guild":"1060586500003213332","guildId":"1060586500003213332","parentId":null,"permissionOverwrites":["1060586500003213332","1083459586897490040"],"flags":0,"id":"1083459661967134790","name":"CSC 325 - Winter 2023","rawPosition":4,"createdTimestamp":1678387313120}},{"prefix":"WIS","number":"200","name":"WIS-200","role":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1083451211103080448","name":"WIS-200","color":10936670,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":{},"createdTimestamp":1678385298277},"veteranRole":{"guild":"1060586500003213332","icon":null,"unicodeEmoji":null,"id":"1083451211891609691","name":"WIS-200 Veteran","color":8633915,"hoist":false,"rawPosition":1,"permissions":"1071698660929","managed":false,"mentionable":false,"tags":{},"createdTimestamp":1678385298465},"video":true,"category":{"type":4,"guild":"1060586500003213332","guildId":"1060586500003213332","parentId":null,"permissionOverwrites":["1060586500003213332","1083451211103080448"],"flags":0,"id":"1083459779994845254","name":"WIS 200 - Winter 2023","rawPosition":5,"createdTimestamp":1678387341260}}]
+[
+  {
+    "prefix": "CSC",
+    "number": "325",
+    "name": "CSC-325",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1083459586897490040",
+      "name": "CSC-325",
+      "color": 15611831,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1678387295222
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1083459587602120735",
+      "name": "CSC-325 Veteran",
+      "color": 13309076,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": null,
+      "createdTimestamp": 1678387295390
+    },
+    "video": false,
+    "category": {
+      "type": 4,
+      "guild": "1060586500003213332",
+      "guildId": "1060586500003213332",
+      "parentId": null,
+      "permissionOverwrites": [
+        "1060586500003213332",
+        "1083459586897490040"
+      ],
+      "flags": 0,
+      "id": "1083459661967134790",
+      "name": "CSC 325 - Winter 2023",
+      "rawPosition": 4,
+      "createdTimestamp": 1678387313120
+    }
+  },
+  {
+    "prefix": "WIS",
+    "number": "200",
+    "name": "WIS-200",
+    "role": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1083451211103080448",
+      "name": "WIS-200",
+      "color": 10936670,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": {},
+      "createdTimestamp": 1678385298277
+    },
+    "veteranRole": {
+      "guild": "1060586500003213332",
+      "icon": null,
+      "unicodeEmoji": null,
+      "id": "1083451211891609691",
+      "name": "WIS-200 Veteran",
+      "color": 8633915,
+      "hoist": false,
+      "rawPosition": 1,
+      "permissions": "1071698660929",
+      "managed": false,
+      "mentionable": false,
+      "tags": {},
+      "createdTimestamp": 1678385298465
+    },
+    "video": true,
+    "category": {
+      "type": 4,
+      "guild": "1060586500003213332",
+      "guildId": "1060586500003213332",
+      "parentId": null,
+      "permissionOverwrites": [
+        "1060586500003213332",
+        "1083451211103080448"
+      ],
+      "flags": 0,
+      "id": "1083459779994845254",
+      "name": "WIS 200 - Winter 2023",
+      "rawPosition": 5,
+      "createdTimestamp": 1678387341260
+    }
+  }
+]
